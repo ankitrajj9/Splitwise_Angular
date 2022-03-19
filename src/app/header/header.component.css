@@ -1,0 +1,17 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~material-design-icons/iconfont/material-icons.css';
+.menu-spacer {
+    flex: 1 1 auto;
+}
+.app-toolbar {
+    position: sticky;
+    position: -webkit-sticky; /* For macOS/iOS Safari */
+    top: 0; /* Sets the sticky toolbar to be on top */
+    z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+.example-header-image {
+  
+    background-size: cover;
+    height: 30px;
+    width: 30px;
+  }

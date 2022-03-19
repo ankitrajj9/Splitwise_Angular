@@ -1,0 +1,23 @@
+<app-header></app-header>
+<app-user-search></app-user-search>
+<div class="card my-5">
+    <div class="card-body" style="background-color: aliceblue;">
+      <h1 *ngIf="groups[0] == undefined " style="text-align: center;">No Groups</h1>
+      <mat-card  *ngFor="let group of groups" style="margin:2em;">
+        <mat-card-header>
+        <div style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+        <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="../groupdetails/{{ group[0].groupId }}/{{mailId}}">{{ group[0].groupName }}</a></mat-card-title>
+        <mat-card-subtitle>Group Details</mat-card-subtitle>
+        
+      </mat-card-header>
+        <mat-card-content>
+          
+          Total Members : {{group[0].totalUsers}}<br>
+                Total Expense : {{group[0].totalExpense}}<br>
+                Borrowed Amount : <span style="color: red;">{{group[1].borrowedAmt}}</span><br>
+                Lended Amount : <span style="color: green;">{{group[2].lendedAmt}}</span>
+        </mat-card-content>
+        
+      </mat-card>
+    </div>
+  </div>

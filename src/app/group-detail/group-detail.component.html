@@ -1,0 +1,309 @@
+<app-header></app-header>
+<div [hidden]="divHide" class="alert alert-success">{{divContent}}</div>
+<div class="card my-5">
+  
+      <table>
+        
+        <tbody>
+          <tr style="background-color: aliceblue;">
+            
+            <td>
+              <mat-card  style="margin:1em;">
+                <mat-card-header>
+                <mat-card-title>{{group.groupName}}</mat-card-title>
+                <mat-card-subtitle>Group Details</mat-card-subtitle>
+                
+              </mat-card-header>
+                <mat-card-content>
+                  
+                  Total Members : {{userDetails.userDetails}}<br>
+                        Total Expense : {{group.totalExpense}}<br>
+                        Borrowed Amount : <span style="color: red;">{{totalBorrowedAmt.borrowedAmt}}</span><br>
+                        Lended Amount : <span style="color: green;">{{totalLendedAmt.lendedAmt}}</span><br>
+                Spent By Me : <span style="color: green;">{{totalExpenseByMe.totalExpenseByMe}}</span>
+                
+                </mat-card-content>
+                <mat-card-actions style="text-align: center;">
+                  <div>
+                  <button (click)="open(mymodal)" mat-raised-button color="accent">Add Expense</button>
+                  <button (click)="open(mysharedetails)" mat-raised-button color="primary">My Share</button>
+                  </div><br>
+                  <div>
+                  <button (click)="open(settleupmodal);toggleBadgeVisibility()" mat-raised-button color="accent"  matBadge="{{settleUpDetails.length != 0 ? settleUpDetails.length : ''}}" [matBadgeHidden]="hidden" matBadgeColor="accent">Settle Up: ({{settleUpDetails.length}})</button>
+                  <button (click)="open(settleupRequestmodal);toggleBadgeVisibility()" mat-raised-button color="primary" matBadge="{{settleUpRequestDetails.length != 0 ? settleUpRequestDetails.length : ''}}" [matBadgeHidden]="hidden" matBadgeColor="accent">Settle Up Requests : ({{settleUpRequestDetails.length}})</button>
+                </div>
+                </mat-card-actions>
+              </mat-card>
+            </td>
+            <td >
+              <div *ngIf="saleData != undefined;then content else other_content">here is ignored</div>
+              <ng-template #content>
+              <mat-card   style="margin:2em;">
+               <ngx-charts-bar-vertical *ngIf="saleData != undefined" id="barChart" [style]=barChartStyle
+              [view]="[680,255]"
+              [results]="saleData"
+              [xAxisLabel]="'Users'"
+              [legendTitle]="'Group Expense'"
+              [yAxisLabel]="'Amount Spent'"
+              [legend]="true"
+              [showXAxisLabel]="true"
+              [showYAxisLabel]="true"
+              [xAxis]="true"
+              [yAxis]="true"
+              [gradient]="true">
+          </ngx-charts-bar-vertical>
+          
+          <ngx-charts-pie-chart *ngIf="saleData != undefined" id="pieChart" [style]=pieChartStyle
+              [results]="saleData"
+              [legend]="true"
+              [legendTitle]="'Group Expense'" 
+              [view]="[680,255]"
+              [labels]="true" >
+          </ngx-charts-pie-chart>
+          <mat-card-actions style="text-align: center;">
+          <button mat-raised-button color="primary" (click)="changeChart()" >{{buttonText}}</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-template>
+      <ng-template #other_content>
+        <mat-card>
+          No Data to Display
+        </mat-card>
+      </ng-template>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+   
+    
+    
+    
+      
+        <table>
+          <tr>
+            <mat-card fxFlex style="background-color: #3F51B5;color: white;margin:2em;"><mat-card-header><mat-icon>history</mat-icon>Expense History</mat-card-header></mat-card>
+            <mat-card fxFlex style="background-color: #3F51B5;color: white;margin:2em;"><mat-card-header><mat-icon>euro_symbol</mat-icon>Payment History</mat-card-header></mat-card>
+          </tr>
+          
+            <tr>
+              <td fxFlex >
+                <div *ngIf="expenseDetails != undefined && expenseDetails.length > 0;then expenseContent else expense_content">here is ignored</div>
+              <ng-template #expenseContent>
+            <mat-card style="margin:2em;" [class]="expense.styling" *ngFor="let expense of expenseDetails">
+              <mat-card-header>
+                <div *ngIf="groupUserImages[expense.userIdDtl] != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+groupUserImages[expense.userIdDtl].image  + ')'" mat-card-avatar class="example-header-image"></div>
+                <div *ngIf="groupUserImages[expense.userIdDtl] == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+                <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="../../../viewprofile/{{expense.userIdDtl}}">{{expense.userName}}</a></mat-card-title>
+                <mat-card-subtitle>{{expense.expenseName}}</mat-card-subtitle>
+                
+              </mat-card-header>
+              <mat-card-content>
+              
+              {{expense.expenseDtl}}
+                <div *ngIf="expense.reqDtl != undefined" style="text-align: right;color: brown;" >
+                  <small>{{expense.reqDtl}}</small>
+                  </div>
+            
+           
+          </mat-card-content>
+          </mat-card>
+          </ng-template>
+          <ng-template #expense_content>
+            <mat-card>
+              <div class="alert alert-danger">No Data</div>
+            </mat-card>
+          </ng-template>
+          </td>
+          <td fxFlex >
+            <div style="margin-bottom:auto;margin-top: auto;">
+              <div *ngIf="paymentDetails != undefined && paymentDetails.length > 0;then paymentContent else payment_content">here is ignored</div>
+              <ng-template #paymentContent>
+          <mat-card style="margin:2em;" [class]="payment.styling" *ngFor="let payment of paymentDetails">
+            <mat-card-header>
+              <div *ngIf="groupUserImages[payment.userIdDtl] != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+groupUserImages[payment.userIdDtl].image  + ')'" mat-card-avatar class="example-header-image"></div>
+                <div *ngIf="groupUserImages[payment.userIdDtl] == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+              
+              <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="../../../viewprofile/{{payment.userIdDtl}}">{{payment.userName}}</a></mat-card-title>
+              
+              
+            </mat-card-header>
+            <mat-card-content>
+              {{payment.paymentDtl}}
+              <div class="talk-bubble tri-right left-top" *ngIf="payment.remarkDtl != undefined" style="text-align: right;color: brown;" >
+                <div class="talktext"><small><b>{{payment.remarkDtl}}</b></small></div>
+                </div>
+            
+          
+         
+        </mat-card-content>
+        </mat-card>
+        </ng-template>
+        <ng-template #payment_content>
+          <mat-card>
+            <div class="alert alert-danger">No Data</div>
+          </mat-card>
+        </ng-template>
+      </div>
+        </td>
+        </tr>
+          
+        </table>
+      
+  </div>
+
+    
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Expense</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" 
+          class="form-control" 
+          id="description" 
+          name="description" 
+          placeholder="Enter Description" [(ngModel)]="expense.description"
+          >
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="text" 
+          class="form-control" 
+          id="amount" 
+          name="amount" 
+          placeholder="Enter Amount" [(ngModel)]="expense.amount"
+          >
+      </div>
+      
+      <div class="form-group">
+        <label for="users">Split Amount With:</label>
+      <ng-multiselect-dropdown
+      id="users" 
+          name="users" 
+      [settings]="dropdownSettings"
+      [data]="users" [(ngModel)]="selectedUsers"
+      
+     >
+    </ng-multiselect-dropdown>
+      </div>
+      
+      
+      <button type="submit" [disabled]="!userForm.form.valid" 
+        class="btn btn-info">Submit</button>
+    </form>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>
+
+<ng-template #settleupmodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Settle UP</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="settleUpDetails.length == 0" style="text-align: center;"  class="alert alert-success">
+    You are Settled up
+    </div>
+    <div *ngFor="let dtl of settleUpDetails" style="text-align: center;"  class="alert alert-warning">
+              <table>
+                <tr><td style="text-align: center;">
+      Settle UP with {{dtl[0].name}} :</td> 
+      <td>
+      <input type="text" style="width: 80px;margin-left: 20px;" readonly
+          class="form-control" 
+          id="amount" 
+          name="amount" 
+          placeholder="Enter Amount" value={{dtl[1].debt}}
+          >
+          </td>
+          <td>
+      <button type="submit"  style="margin-left: 20px;" (click)="getConfirm(dtl[0].id,dtl[0].name,dtl[1].debt,0)" 
+      class="{{dtl[1].reqStatus == 1 ? 'btn btn-secondary disabled' : 'btn btn-success'}}" >{{dtl[1].reqStatus == 1 ? 'Settle Up Initiated' : 'Settle Up'}}</button>
+    </td>
+    </tr>
+  </table>
+ </div>
+
+
+  </div>
+  
+</ng-template>
+
+<ng-template #settleupRequestmodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Settle UP</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div *ngIf="settleUpRequestDetails.length == 0" style="text-align: center;"  class="alert alert-success">
+    No Settle Up Requests
+    </div>
+  <div class="modal-body">
+    <div *ngFor="let dtl of settleUpRequestDetails" style="text-align: center;"  class="alert alert-warning">
+              <table>
+                <tr><td style="text-align: center;">
+      {{dtl.reqDtl}}
+      </td>
+      <td>
+      <button type="submit"   
+      class="btn btn-success" (click)="getConfirm(dtl.userId,dtl.name,dtl.amount,1)">Approve</button>
+      </td>
+      <td>
+      <button type="submit"  (click)="getConfirm(dtl.userId,dtl.name,dtl.amount,2)"
+      class="btn btn-success" style="background-color:red">Reject</button>
+    </td>
+    </tr>
+    <tr>
+      <td><b>Remarks:</b> </td>
+      <td>
+        <input type="text"  style="margin-left: 32px;"
+          class="form-control" 
+          id="id_{{dtl.userId}}" 
+          name="{{dtl.userId}}" 
+          placeholder="Enter Remarks" 
+          >
+        </td>
+    </tr>
+  </table>
+ </div>
+
+
+  </div>
+  
+</ng-template>
+
+<ng-template #mysharedetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">My Shares</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div *ngIf="myShareDetails.length == 0" style="text-align: center;"  class="alert alert-success">
+    You don't have any shares in this group
+    </div>
+  <div class="modal-body">
+    <div *ngFor="let dtl of myShareDetails" style="text-align: center;"  class="alert alert-warning">
+              
+      {{dtl.shareDtl}}
+      
+ </div>
+
+
+  </div>
+  
+</ng-template>

@@ -1,0 +1,48 @@
+
+    <div class="form-group">
+      <label style="color:white" for="search">Search</label>
+      <input type="text" 
+        class="form-control" 
+        id="search" 
+        name="search" (keyup)="searchUser($event)"
+        placeholder="Search User" />
+    </div>
+    
+    <div *ngIf="show" class="card my-5">
+      <div class="card-body" style="background-color: aliceblue;">
+        
+              <mat-card  *ngFor="let user of users" style="margin:2em;">
+                <mat-card-header>
+                  <div *ngIf="user.userImage == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+                  <div *ngIf="user.userImage != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+user.userImage.image  + ')'" mat-card-avatar class="example-header-image"></div>
+                <mat-card-subtitle>
+                  
+                <a routerLink="/viewprofile/{{ user.id }}">{{ user.name }}</a>
+              </mat-card-subtitle>
+              <mat-card-subtitle>
+                  
+                {{ user.email }}
+              </mat-card-subtitle>
+              <mat-card-subtitle>
+                  
+                {{ user.followStatus }}
+              </mat-card-subtitle>
+            </mat-card-header>
+              </mat-card>
+              </div>
+              </div>
+              
+<div class="card my-5">
+      <div class="card-body">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <td><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/following/1/{{mailId}}">Following : ({{following.followingLen}})</a></td>
+              <td><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/follower/2/{{mailId}}">Followers : ({{follower.followerLen}})</a></td>
+              <td style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Over all Borrowed By You : <span style="color: red;">{{totalBorrowed.overAllBorrowedAmt}}</span></td>
+              <td style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Over all Lended By You : <span style="color: green;">{{totalLended.overAllLendedAmt}}</span></td>
+              </tr>
+              </tbody>
+              </table>
+              </div>
+              </div>

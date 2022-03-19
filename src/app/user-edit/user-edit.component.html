@@ -1,0 +1,79 @@
+<app-header></app-header>
+<div class="card my-5">
+  <table>
+    <tr>
+      <td>
+    <div class="card-body" style="width: 600px;">
+      <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" [(ngModel)]="user.name" 
+            class="form-control" 
+            id="name" 
+            name="name" 
+            placeholder="Enter your name"
+            required #name="ngModel">
+        </div>
+       
+
+    
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" [(ngModel)]="user.email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            placeholder="Enter your email address"
+            required #email="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" [(ngModel)]="user.password" 
+            class="form-control" 
+            id="password" 
+            name="password" 
+            placeholder="Enter your password"
+            required #email="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="text" [(ngModel)]="user.age" 
+            class="form-control" 
+            id="age" 
+            name="age" 
+            placeholder="Enter your Age"
+            required #email="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="hobbies">Hobbies</label>
+        <ng-multiselect-dropdown
+        id="hobbies" 
+            name="hobbies" 
+        [settings]="dropdownSettings"
+        [data]="dropdownList"
+        [(ngModel)]="user.hobbies"
+       
+      >
+      </ng-multiselect-dropdown>
+        </div>
+      <button type="submit" [disabled]="!userForm.form.valid" 
+      class="btn btn-info">Update</button>
+      </form>
+      
+    </div>
+    </td>
+    <td>
+      <div >
+        <img *ngIf="dbImage == undefined" src="./assets/profilepic.jpg"  class="example-header-image">
+        <img *ngIf="dbImage != undefined" [src]="dbImage"  class="example-header-image">
+    </div><br>
+      <div class="form-group" style="margin-left: 50px;">
+        <input type="file" (change)="onImageUpload($event)">
+        <input type="button" (click)="uploadImage()" value="Upload Image" class="btn1">
+    </div>
+    
+  
+</td>
+    </tr>
+    </table>
+  </div>

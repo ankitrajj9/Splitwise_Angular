@@ -1,0 +1,28 @@
+<app-header></app-header>
+<app-user-search></app-user-search>
+<div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Age</th>
+            <th scope="col">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td><a href="viewprofile/{{ user.id }}">{{ user.name }}</a></td>
+            <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+            <td>{{ user.age }}</td>
+            <td>
+              <button (click)="userDetail(user.id)" class="btn btn-info btn-detail" style="margin-left: 10px">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

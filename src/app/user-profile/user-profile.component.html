@@ -1,0 +1,56 @@
+<app-header></app-header>
+<div class="card my-5">
+
+  <table >
+    <tr><td>
+<mat-card class="example-card">
+  <mat-card-header>
+    <div *ngIf="dbImage != undefined" style="background-image: url({{dbImage}});" mat-card-avatar class="example-header-image"></div>
+    <div *ngIf="dbImage == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{user.name}}</mat-card-title>
+    <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+    <mat-card-subtitle>
+      <button type="submit" mat-button
+          class="btn btn-info" [style]="buttonStyle" (click)="followunfollowUser(user.id)">{{buttonText}}</button>
+    </mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <b class="alert alert-light">Details : </b>
+    <div class="alert alert-light">
+      Name : {{user.name}}<br>
+      Email : {{user.email}}<br>
+      Age : {{user.age}}<br>
+      Hobbies : <ul>
+        <li *ngFor="let hobby of user.hobbies" >{{hobby.hobbyName }}</li>
+    </ul>
+    </div>
+        
+            
+  </mat-card-content>
+  
+</mat-card>
+</td>
+<td>
+  <mat-card class="example-card">
+    <mat-card-header>
+      
+      
+      <mat-card-title><h1 class="alert alert-light">Mutual Groups :</h1></mat-card-title>
+      
+    </mat-card-header>
+    
+    <mat-card-content>
+      <ol>
+        <li class="alert alert-light" *ngFor="let group of groups">{{group.groupName}}
+        </li>
+        
+      </ol>
+    </mat-card-content>
+    
+  </mat-card>
+  </td>
+</tr>
+</table>
+
+</div>

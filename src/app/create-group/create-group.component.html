@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="card my-5" >
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <div class="form-group">
+          <label for="groupName">Group Name</label>
+          <input type="text" [(ngModel)]="group.groupName" 
+            class="form-control" 
+            id="groupName" 
+            name="groupName" 
+            placeholder="Enter Group Name"
+            required #name="ngModel">
+        </div>
+        
+        <div class="form-group">
+          <label for="users">Users</label>
+        <ng-multiselect-dropdown
+        id="users" 
+            name="users" 
+        [settings]="dropdownSettings"
+        [data]="users"
+        [(ngModel)]="selectedUsers"
+       >
+      </ng-multiselect-dropdown>
+        </div>
+        
+        
+        <button type="submit" [disabled]="!userForm.form.valid" 
+          class="btn btn-info">Submit</button>
+      </form>
+    </div>
+  </div>
+  

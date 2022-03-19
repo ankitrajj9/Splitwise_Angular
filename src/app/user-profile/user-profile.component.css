@@ -1,0 +1,9 @@
+
+
+.example-header-image {
+  
+  background-size: cover;
+  height: 100px;
+  width: 100px;
+}
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";

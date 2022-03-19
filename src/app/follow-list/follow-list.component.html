@@ -1,0 +1,23 @@
+<app-header></app-header>
+<app-user-search></app-user-search>
+<div class="card my-5">
+  
+    <div class="card-body" style="background-color: aliceblue;">
+      <h1 style="text-align: center;color: gray;">{{displayVal}}</h1>
+      <mat-card  *ngFor="let user of users" style="margin:2em;">
+        <mat-card-header>
+          <div *ngIf="user.userImage == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+          <div *ngIf="user.userImage != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+user.userImage.image  + ')'" mat-card-avatar class="example-header-image"></div>
+        <mat-card-subtitle>
+          
+        <a routerLink="/viewprofile/{{ user.id }}">{{ user.name }}</a>
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+          
+        {{ user.email }}
+      </mat-card-subtitle>
+    </mat-card-header>
+      </mat-card>
+      
+    </div>
+  </div>
