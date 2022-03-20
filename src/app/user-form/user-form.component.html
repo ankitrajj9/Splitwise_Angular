@@ -1,3 +1,4 @@
+<app-disable-back></app-disable-back>
 <div class="card my-5" [hidden]="mainDiv">
     <div class="card-body">
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
@@ -57,4 +58,6 @@
       </form>
     </div>
   </div>
-  <div [hidden]="divShow" class="alert alert-success">Details saved Successfully . Please Log In to Continue</div>
+  <div [hidden]="divShow" class="alert alert-success">Details saved Successfully . Please Log In to Continue
+    <br><button mat-raised-button color="primary" (click)="logIn()" >Log In</button>
+  </div>

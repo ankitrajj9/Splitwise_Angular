@@ -35,9 +35,13 @@ displayCss='alert alert-success'
         window.sessionStorage.setItem('sessionUserEmail',this.email);
         this.router.navigate(['grouplisting']);
       }, error => {
-        this.displayCss='alert alert-danger'
         this.showDiv=false
+        this.displayCss='alert alert-danger'
+        if(error.error.error_description == 'User is disabled'){
+          this.errorMessage='Your Email Verification is Pending'
+        }else{
         this.errorMessage='Email Id or Password is Incorrect'
+        }
       });
     }
     }

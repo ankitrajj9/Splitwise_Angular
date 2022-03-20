@@ -34,7 +34,11 @@ errorMessage:string=''
         this.router.navigate(['grouplisting']);
       }, error => {
         this.showDiv=false
+        if(error.error.error_description == 'User is disabled'){
+          this.errorMessage='Your Email Verification is Pending'
+        }else{
         this.errorMessage='Email Id or Password is Incorrect'
+        }
       });
     }
     }
