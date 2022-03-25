@@ -14,6 +14,7 @@ dbImage: any;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.user = new User()
     this.userService.getUserByMailId(window.sessionStorage.getItem('sessionUserEmail')).subscribe(data => {
       this.user = data;
     this.userService.getUserImages(this.user.id).subscribe(

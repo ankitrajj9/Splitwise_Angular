@@ -29,8 +29,8 @@
                   <button (click)="open(mysharedetails)" mat-raised-button color="primary">My Share</button>
                   </div><br>
                   <div>
-                  <button (click)="open(settleupmodal);toggleBadgeVisibility()" mat-raised-button color="accent"  matBadge="{{settleUpDetails.length != 0 ? settleUpDetails.length : ''}}" [matBadgeHidden]="hidden" matBadgeColor="accent">Settle Up: ({{settleUpDetails.length}})</button>
-                  <button (click)="open(settleupRequestmodal);toggleBadgeVisibility()" mat-raised-button color="primary" matBadge="{{settleUpRequestDetails.length != 0 ? settleUpRequestDetails.length : ''}}" [matBadgeHidden]="hidden" matBadgeColor="accent">Settle Up Requests : ({{settleUpRequestDetails.length}})</button>
+                  <button *ngIf="settleUpDetails != undefined" (click)="open(settleupmodal);toggleBadgeVisibility()" mat-raised-button color="accent"  matBadge="{{settleUpDetails.length != 0 ? settleUpDetails.length : ''}}" [matBadgeHidden]="hidden" matBadgeColor="accent">Settle Up: ({{settleUpDetails.length}})</button>
+                  <button *ngIf="settleUpRequestDetails != undefined" (click)="open(settleupRequestmodal);toggleBadgeVisibility()" mat-raised-button color="primary" matBadge="{{settleUpRequestDetails.length != 0 ? settleUpRequestDetails.length : ''}}" [matBadgeHidden]="hidden" matBadgeColor="accent">Settle Up Requests : ({{settleUpRequestDetails.length}})</button>
                 </div>
                 </mat-card-actions>
               </mat-card>
@@ -40,8 +40,9 @@
               <ng-template #content>
               <mat-card   style="margin:2em;">
                <ngx-charts-bar-vertical *ngIf="saleData != undefined" id="barChart" [style]=barChartStyle
-              [view]="[680,255]"
-              [results]="saleData"
+               (window:resize)="onResize($event)" 
+               [view]="view"
+               [results]="saleData"
               [xAxisLabel]="'Users'"
               [legendTitle]="'Group Expense'"
               [yAxisLabel]="'Amount Spent'"
@@ -54,10 +55,10 @@
           </ngx-charts-bar-vertical>
           
           <ngx-charts-pie-chart *ngIf="saleData != undefined" id="pieChart" [style]=pieChartStyle
+          (window:resize)="onResize($event)" [view]="view"
               [results]="saleData"
               [legend]="true"
-              [legendTitle]="'Group Expense'" 
-              [view]="[680,255]"
+              [legendTitle]="'Group Expense'"
               [labels]="true" >
           </ngx-charts-pie-chart>
           <mat-card-actions style="text-align: center;">
@@ -90,10 +91,10 @@
                 <div *ngIf="expenseDetails != undefined && expenseDetails.length > 0;then expenseContent else expense_content">here is ignored</div>
               <ng-template #expenseContent>
             <mat-card style="margin:2em;" [class]="expense.styling" *ngFor="let expense of expenseDetails">
-              <mat-card-header>
+              <mat-card-header *ngIf="groupUserImages != undefined">
                 <div *ngIf="groupUserImages[expense.userIdDtl] != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+groupUserImages[expense.userIdDtl].image  + ')'" mat-card-avatar class="example-header-image"></div>
                 <div *ngIf="groupUserImages[expense.userIdDtl] == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
-                <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="../../../viewprofile/{{expense.userIdDtl}}">{{expense.userName}}</a></mat-card-title>
+                <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/viewprofile/{{expense.userIdDtl}}">{{expense.userName}}</a></mat-card-title>
                 <mat-card-subtitle>{{expense.expenseName}}</mat-card-subtitle>
                 
               </mat-card-header>
@@ -119,11 +120,11 @@
               <div *ngIf="paymentDetails != undefined && paymentDetails.length > 0;then paymentContent else payment_content">here is ignored</div>
               <ng-template #paymentContent>
           <mat-card style="margin:2em;" [class]="payment.styling" *ngFor="let payment of paymentDetails">
-            <mat-card-header>
+            <mat-card-header *ngIf="groupUserImages != undefined">
               <div *ngIf="groupUserImages[payment.userIdDtl] != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+groupUserImages[payment.userIdDtl].image  + ')'" mat-card-avatar class="example-header-image"></div>
                 <div *ngIf="groupUserImages[payment.userIdDtl] == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
               
-              <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="../../../viewprofile/{{payment.userIdDtl}}">{{payment.userName}}</a></mat-card-title>
+              <mat-card-title><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/viewprofile/{{payment.userIdDtl}}">{{payment.userName}}</a></mat-card-title>
               
               
             </mat-card-header>

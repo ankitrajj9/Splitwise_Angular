@@ -2,7 +2,7 @@
 <app-user-search></app-user-search>
 <div class="card my-5">
     <div class="card-body" style="background-color: aliceblue;">
-      <h1 *ngIf="groups[0] == undefined " style="text-align: center;">No Groups</h1>
+      <!-- <h1 *ngIf="groups.length == 0 " style="text-align: center;">No Groups</h1> -->
       <mat-card  *ngFor="let group of groups" style="margin:2em;">
         <mat-card-header>
         <div style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>

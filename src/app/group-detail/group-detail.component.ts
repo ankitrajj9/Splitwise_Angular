@@ -19,16 +19,16 @@ group:Group;
 id:number
 mailId:string
 jsonArray:any[]
-userDetails:any
+userDetails:any=''
 users: User[];
 selectedUsers:User[]
 expense:Expense
 dropdownSettings:IDropdownSettings = {};
 divHide=true
 expenseDetails:any[]
-totalBorrowedAmt:any
-totalLendedAmt:any
-totalExpenseByMe:any;
+totalBorrowedAmt:any=0
+totalLendedAmt:any=0
+totalExpenseByMe:any=0
 settleUpDetails:any[]
 settleUpRequestDetails:any[]
 paymentDetails:any[]
@@ -41,6 +41,7 @@ barChartStyle:string
 myShareDetails:any[]
 groupUserImages:any[]
 hidden = false;
+view:any
 
   toggleBadgeVisibility() {
     this.hidden = true;
@@ -49,6 +50,7 @@ hidden = false;
   constructor(private userService: UserService,private router: Router,private route:ActivatedRoute,private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this.group=new Group()
     this.changeChart()
     this.expense=new Expense()
     this.buttonText='Show Pie Chart'
@@ -252,4 +254,5 @@ hidden = false;
     })
     
   }
+  onResize(event) { this.view = [event.target.innerWidth - 900, 280 ]; }
 }

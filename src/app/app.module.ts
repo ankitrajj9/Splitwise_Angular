@@ -41,6 +41,8 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DisableBackComponent } from './disable-back/disable-back.component';
+import {MatInputModule} from '@angular/material/input';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -86,9 +88,10 @@ import { DisableBackComponent } from './disable-back/disable-back.component';
    MatGridListModule,
    MatBadgeModule,
    LoadingBarModule,
-   LoadingBarRouterModule
+   LoadingBarRouterModule,
+   MatInputModule
   ],
-  providers: [UserService],
+  providers: [UserService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

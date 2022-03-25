@@ -15,10 +15,10 @@ export class UserSearchComponent implements OnInit {
   noData = '';
   users: any[];
   mailId:string
-  following:any
-  follower:any
-  totalBorrowed:any
-  totalLended:any
+  following:any=0
+  follower:any=0
+  totalBorrowed:any=0
+  totalLended:any=0
   constructor(private userservice:UserService,
     private route:ActivatedRoute,private router:Router) { }
 

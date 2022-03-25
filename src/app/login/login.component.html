@@ -6,22 +6,22 @@
       <mat-card-content>
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
         <div [hidden]="showDiv" class="alert alert-danger">{{errorMessage}}</div>
-          <mat-form-field>
-          <label for="email">Email:</label><input type="text" [(ngModel)]="email" 
-          class="form-control" 
+          <mat-form-field >
+            <mat-label>Email:</mat-label>
+            <input matInput  [(ngModel)]="email" 
           id="email" 
           name="email" 
-          placeholder="Enter your Email"
           required #name="ngModel">
         </mat-form-field>
         <mat-form-field>
-          
-            <label for="password">Password:</label><input type="password" [(ngModel)]="password" 
-            class="form-control" 
-            id="password" 
-            name="password" autocomplete="off"
-            required #name="ngModel">
+         <mat-label>Password:</mat-label>
+          <input matInput type="password" [(ngModel)]="password" 
+          id="password" 
+          name="password" 
+          required #name="ngModel"  
+          >
           </mat-form-field>
+          
         
         
         <button mat-raised-button color="primary" [disabled]="userForm.invalid">Login</button>
