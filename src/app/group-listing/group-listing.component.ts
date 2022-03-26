@@ -14,7 +14,7 @@ mailId:string
   constructor(private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
-    this.mailId=window.sessionStorage.getItem('sessionUserEmail')
+    this.mailId=btoa(window.sessionStorage.getItem('sessionUserEmail'))
     this.userService.findGroups(window.sessionStorage.getItem('sessionUserEmail')).subscribe(data => {
       this.groups = data;
     });

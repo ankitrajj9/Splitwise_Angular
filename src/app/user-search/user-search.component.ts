@@ -19,11 +19,13 @@ export class UserSearchComponent implements OnInit {
   follower:any=0
   totalBorrowed:any=0
   totalLended:any=0
+  encMailId:string
   constructor(private userservice:UserService,
     private route:ActivatedRoute,private router:Router) { }
 
   ngOnInit(): void {
     this.mailId=window.sessionStorage.getItem('sessionUserEmail');
+    this.encMailId=btoa(this.mailId)
     this.userservice.getDetails(this.mailId).subscribe(data => {
       this.following = data[0];
       this.follower = data[1];

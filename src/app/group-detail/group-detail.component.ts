@@ -55,7 +55,7 @@ view:any
     this.expense=new Expense()
     this.buttonText='Show Pie Chart'
     this.id = this.route.snapshot.params['groupId'];
-    this.mailId=this.route.snapshot.params['mailId'];
+    this.mailId=atob(this.route.snapshot.params['mailId']);
     this.userService.getGroupDetails(this.id,this.mailId).subscribe(data => {
       this.jsonArray=data;
       this.userDetails=data[0]

@@ -37,8 +37,8 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr>
-              <td><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/following/1/{{mailId}}">Following : ({{following.followingLen}})</a></td>
-              <td><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/follower/2/{{mailId}}">Followers : ({{follower.followerLen}})</a></td>
+              <td><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/following/1/{{encMailId}}">Following : ({{following.followingLen}})</a></td>
+              <td><a style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" routerLink="/follower/2/{{encMailId}}">Followers : ({{follower.followerLen}})</a></td>
               <td style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Over all Borrowed By You : <span style="color: red;">{{totalBorrowed.overAllBorrowedAmt}}</span></td>
               <td style="color: royalblue;font-size: large;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Over all Lended By You : <span style="color: green;">{{totalLended.overAllLendedAmt}}</span></td>
               </tr>
