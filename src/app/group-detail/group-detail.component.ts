@@ -254,5 +254,5 @@ view:any
     })
     
   }
-  onResize(event) { this.view = [event.target.innerWidth - 900, 280 ]; }
+  onResize(event) { this.view = [event.target.innerWidth - 500, 280 ]; }
 }

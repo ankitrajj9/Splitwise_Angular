@@ -7,7 +7,7 @@
         <tbody>
           <tr style="background-color: aliceblue;">
             
-            <td>
+            <td style="width: 40%;">
               <mat-card  style="margin:1em;">
                 <mat-card-header>
                 <mat-card-title>{{group.groupName}}</mat-card-title>
@@ -35,13 +35,13 @@
                 </mat-card-actions>
               </mat-card>
             </td>
-            <td >
+            <td style="width: 60%;">
               <div *ngIf="saleData != undefined;then content else other_content">here is ignored</div>
               <ng-template #content>
               <mat-card   style="margin:2em;">
                <ngx-charts-bar-vertical *ngIf="saleData != undefined" id="barChart" [style]=barChartStyle
-               (window:resize)="onResize($event)" 
-               [view]="view"
+               
+               [view]="[680,255]"
                [results]="saleData"
               [xAxisLabel]="'Users'"
               [legendTitle]="'Group Expense'"
@@ -55,7 +55,7 @@
           </ngx-charts-bar-vertical>
           
           <ngx-charts-pie-chart *ngIf="saleData != undefined" id="pieChart" [style]=pieChartStyle
-          (window:resize)="onResize($event)" [view]="view"
+          [view]="[680,255]"
               [results]="saleData"
               [legend]="true"
               [legendTitle]="'Group Expense'"
