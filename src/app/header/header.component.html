@@ -8,7 +8,14 @@
       <div fxShow="true">
         <!-- The following menu items will be hidden on both SM and XS screen sizes -->
         
-       
+        <mat-form-field style="min-width: 450px;margin-left: auto;margin-right: auto;">
+         <mat-icon matSuffix>search</mat-icon>
+          <mat-label style="font-family: 'Courier New', Courier, monospace;">Search Users</mat-label>
+          <input matInput  type="text"
+        id="search" 
+        name="search" (keyup)="searchUser($event)"
+         >
+      </mat-form-field>
         <button routerLink="/getusers" mat-button>Show Users</button>
         <button routerLink="/creategroup" mat-button>Create Group</button>
         <button [matMenuTriggerFor]="profile"  mat-button><mat-icon>account_circle</mat-icon>
@@ -24,3 +31,26 @@
   </mat-toolbar>
 
   
+  <div *ngIf="show" class="card my-5" style="width: 600px;margin-left: auto;margin-right: auto;">
+    <div class="card-body" style="background-color: aliceblue;">
+      
+            <mat-card  *ngFor="let user of users" style="margin:2em;">
+              <mat-card-header>
+                <div *ngIf="user.userImage == undefined" style="background-image: url('./assets/profilepic.jpg');" mat-card-avatar class="example-header-image"></div>
+                <div *ngIf="user.userImage != undefined" [style.background-image]="'url(' + 'data:image/jpeg;base64,'+user.userImage.image  + ')'" mat-card-avatar class="example-header-image"></div>
+              <mat-card-subtitle>
+                
+              <a routerLink="/viewprofile/{{ user.id }}">{{ user.name }}</a>
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+                
+              {{ user.email }}
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+                
+              {{ user.followStatus }}
+            </mat-card-subtitle>
+          </mat-card-header>
+            </mat-card>
+            </div>
+            </div>
