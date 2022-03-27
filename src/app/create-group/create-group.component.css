@@ -1,0 +1,16 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~material-design-icons/iconfont/material-icons.css';
+.mat-form-field {
+  width: 100%;
+  min-width: 450px;
+}
+mat-card-title,
+  mat-card-content {
+    display: flex;
+    justify-content: center;
+  }
+  .alert-warning {
+    background-color: blanchedalmond;
+    border-color: #faebcc;
+    color: #8a6d3b;
+    }

@@ -15,11 +15,14 @@ group:Group;
 users: User[];
 selectedUsers: User[];
 dropdownSettings:IDropdownSettings = {};
+showDiv:boolean
+errorMessage:string=''
   constructor(private userService: UserService,private router: Router) { 
     this.group = new Group();
   }
 
   ngOnInit(): void {
+    this.showDiv=true
     this.userService.getFollowingUsers(window.sessionStorage.getItem('sessionUserEmail')).subscribe(data => {
       this.users = data;
       console.log(this.users)
@@ -34,11 +37,16 @@ dropdownSettings:IDropdownSettings = {};
     };
   }
   onSubmit() {
+    if(this.selectedUsers == undefined || this.selectedUsers.length == 0){
+      this.showDiv=false;
+      this.errorMessage='Please Select Group Members'
+    }else{
     console.log('group details saved')
     this.userService.saveGroup(this.group,this.selectedUsers).subscribe(result => {console.log('saved')
     this.router.navigate(['grouplisting']);}
     );
-    
   }
+  }
+ 
   
 }

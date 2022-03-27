@@ -1,18 +1,26 @@
 <app-header></app-header>
 <div class="card my-5" >
-    <div class="card-body">
+    <div fxFlex class="card-body" style="background-color: aliceblue;">
+      <table>
+        <tr>
+          <td style="width: 60%;">
+      <mat-card  style="margin:2em;">
+        <mat-card-title>Create Group</mat-card-title>
+        <mat-card-content>
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <div [hidden]="showDiv" class="alert alert-danger">{{errorMessage}}</div>
         <div class="form-group">
-          <label for="groupName">Group Name</label>
-          <input type="text" [(ngModel)]="group.groupName" 
-            class="form-control" 
-            id="groupName" 
-            name="groupName" 
-            placeholder="Enter Group Name"
-            required #name="ngModel">
-        </div>
+        <mat-form-field>
+          <mat-label>Group Name:</mat-label>
+          <input matInput  [(ngModel)]="group.groupName" 
+        id="groupName"  placeholder="Enter Group Name"
+        name="groupName" 
+        required #name="ngModel">
+        <mat-icon matSuffix>group</mat-icon>
+      </mat-form-field>
+    </div>
         
-        <div class="form-group">
+          <div class="form-group">
           <label for="users">Users</label>
         <ng-multiselect-dropdown
         id="users" 
@@ -25,9 +33,24 @@
         </div>
         
         
-        <button type="submit" [disabled]="!userForm.form.valid" 
-          class="btn btn-info">Submit</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.form.valid">
+          Submit</button>
       </form>
+    </mat-card-content>
+      </mat-card>
+      </td>
+      <td style="width: 40%;" >
+        <mat-card style="margin:2em;" class="alert-warning">
+          <mat-card-title>Note:</mat-card-title>
+          
+          <mat-card-content>
+            <p><b>i) The Users you have followed will appear here</b></p>
+            <b>ii) If you can't find User here , Please follow first</b>
+          </mat-card-content>
+        </mat-card>
+        </td>
+      </tr>
+    </table>
     </div>
   </div>
   
