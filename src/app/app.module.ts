@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from './user-service.service';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
@@ -43,7 +43,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DisableBackComponent } from './disable-back/disable-back.component';
 import {MatInputModule} from '@angular/material/input';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
+import {TokenInterceptorService} from './token-interceptor.service'
 
 @NgModule({
   declarations: [
@@ -91,7 +91,13 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
    LoadingBarRouterModule,
    MatInputModule
   ],
-  providers: [UserService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [UserService,{provide: LocationStrategy, useClass: HashLocationStrategy},
+  {
+    provide:HTTP_INTERCEPTORS,
+    useClass:TokenInterceptorService,
+    multi:true
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
