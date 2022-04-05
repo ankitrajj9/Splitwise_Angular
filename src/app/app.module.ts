@@ -42,8 +42,9 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DisableBackComponent } from './disable-back/disable-back.component';
 import {MatInputModule} from '@angular/material/input';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import {TokenInterceptorService} from './token-interceptor.service'
+
+import {TokenInterceptorService} from './token-interceptor.service';
+import { ExternalLoginComponent } from './external-login/external-login.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {TokenInterceptorService} from './token-interceptor.service'
     LogoutComponent,
     VerifyEmailComponent,
     ResetPasswordComponent,
-    DisableBackComponent
+    DisableBackComponent,
+    ExternalLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +93,7 @@ import {TokenInterceptorService} from './token-interceptor.service'
    LoadingBarRouterModule,
    MatInputModule
   ],
-  providers: [UserService,{provide: LocationStrategy, useClass: HashLocationStrategy},
+  providers: [UserService,
   {
     provide:HTTP_INTERCEPTORS,
     useClass:TokenInterceptorService,

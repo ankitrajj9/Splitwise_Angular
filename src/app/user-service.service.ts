@@ -147,4 +147,27 @@ export class UserService {
       
     return this.http.post<any>('https://localhost:8443/changepassword', body);
   }
+  public getAuthorizationCode(){
+    const body = new HttpParams()
+    .set('response_type','code')
+    .set('client_id','javainuse')
+    .set('redirect_uri','http://localhost:4200/externallogin')
+    .set('scope','read')
+    return this.http.post<any>('http://localhost:8081/oauth/authorize', body);
+  }
+  public getTokenFromAuthorizationCode(code:any){
+    const headerTst = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' + btoa('javainuse:secret')
+      })
+    }
+    const body = new HttpParams()
+    .set('code',code)
+    .set('grant_type','authorization_code')
+    .set('redirect_uri','http://localhost:4200/externallogin')
+    return this.http.post<any>('http://localhost:8081/oauth/token', body,headerTst);
+  }
+  public getTestData(token:any){
+    return this.http.get<any>(`http://localhost:8081/user/getEmployeesList`+'?access_token=' + token);
+  }
 }

@@ -12,6 +12,7 @@ import {FollowListComponent} from './follow-list/follow-list.component'
 import {LogoutComponent} from './logout/logout.component'
 import {VerifyEmailComponent} from './verify-email/verify-email.component'
 import {ResetPasswordComponent} from './reset-password/reset-password.component'
+import {ExternalLoginComponent} from './external-login/external-login.component'
 
 const routes: Routes = [
   {
@@ -32,7 +33,9 @@ const routes: Routes = [
   {path: 'logout', component:LogoutComponent},
   {path: 'verifyemail/:mailId', component:VerifyEmailComponent},
   {path: 'resetpassword', component:ResetPasswordComponent},
-  {path: 'resetpassword/:encodedMailId', component:ResetPasswordComponent}
+  {path: 'resetpassword/:encodedMailId', component:ResetPasswordComponent},
+  {path: 'externallogin', component:ExternalLoginComponent},
+  {path: 'externallogin/:code', component:ExternalLoginComponent}
 ];
 
 @NgModule({

@@ -1,0 +1,45 @@
+<app-disable-back></app-disable-back>
+<div *ngIf="authCode == undefined" class="card my-5">
+  <div class="card-body" style="background-color: aliceblue;">
+    <h1 style="text-align: center;">Login</h1>
+    <table>
+      <tr><td fxFlex>
+    <mat-card style="margin:2em;">
+        <mat-card-content>
+<form ngNoForm  action="http://localhost:8081/oauth/authorize">
+    <input hidden name="response_type" value="code" type="text" >
+    <input hidden name="client_id" value="javainuse" type="text" >
+    <input hidden name="redirect_uri" value="http://localhost:4200/externallogin" type="text">
+    <input hidden name="scope" value="read" type="text" >
+    <button  mat-button mat-raised-button color="accent" type="SUBMIT">Continue LogIn With BootDemo</button>
+</form>
+</mat-card-content>
+</mat-card></td></tr><div style="text-align: center;"><b>OR</b></div>
+<tr>
+  <td fxFlex>
+  <mat-card style="margin:2em;">
+<mat-card-content>
+  <a mat-raised-button color="primary" routerLink="/login" mat-button>LogIn With Splitter Account</a>
+  <a style="margin-left: 10px;" mat-raised-button color="primary" routerLink="/adduser" mat-button>Sign Up</a>
+</mat-card-content>
+  </mat-card>
+  </td>
+</tr>
+</table>
+</div>
+</div>
+<div *ngIf="this.authCode != undefined">
+<!-- {{userDetail.name}}
+{{userDetail.emailId}}
+{{userDetail.age}}
+<p *ngFor="let hobby of userDetail.hobbies">
+{{hobby.hobbyName}}
+</p> -->
+<div class="d-flex justify-content-center">
+  
+  <div class="spinner-border" role="status">
+      <span class="sr-only" id="loading"></span>
+  </div>
+  Please Wait ... Redirecting to the Splitter
+</div>
+</div>

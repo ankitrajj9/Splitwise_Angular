@@ -8,4 +8,6 @@ export class User {
     password: string;
     age:number;
     hobbies:UserHobby[];
+    cstatus:number
+    isExternal:number
 }
