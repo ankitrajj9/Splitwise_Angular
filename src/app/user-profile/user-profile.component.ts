@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { Group } from '../group';
 import { UserService } from '../user-service.service';
-import  {ActivatedRoute,Route,Router} from '@angular/router';
+import  {ActivatedRoute,Route,Router,ParamMap} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +10,7 @@ import  {ActivatedRoute,Route,Router} from '@angular/router';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  id:number;
+  id:any;
   user : User
   fromMailId:any;
   buttonText ='Follow';
@@ -27,8 +27,9 @@ export class UserProfileComponent implements OnInit {
     private route:ActivatedRoute,private router:Router) { }
 
   ngOnInit(): void {
-    this.user=new User();
-    this.id = this.route.snapshot.params['id'];
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.id = params.get('id');
+      this.user=new User();
     this.userservice.getUser(this.id)
       .subscribe(data => {
         console.log(data)
@@ -45,6 +46,8 @@ export class UserProfileComponent implements OnInit {
       }, error => console.log(error));
       this.viewImage()
       this.userFollows(this.id);
+    });
+    
   }
   followUser(toUserId: any){
     this.fromMailId = window.sessionStorage.getItem('sessionUserEmail');
@@ -97,8 +100,9 @@ export class UserProfileComponent implements OnInit {
       res => {
         console.log('VIEW IMAGE Response')
         this.postResponse = res;
-        console.log(res)
+        if(res != undefined){
         this.dbImage = 'data:image/jpeg;base64,' + this.postResponse.image;
+        }
       }
     )
   }

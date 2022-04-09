@@ -105,8 +105,9 @@ dropdownList = [];
       res => {
         console.log('VIEW IMAGE Response')
         this.postResponse = res;
-        console.log(res)
+        if(res != undefined){
         this.dbImage = 'data:image/jpeg;base64,' + this.postResponse.image;
+        }
       }
     )
   }

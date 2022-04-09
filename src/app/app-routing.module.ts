@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'adduser', component: UserFormComponent },
   { path: 'edituser/:id', component: UserEditComponent },
   { path: 'login', component: LoginComponent },
-  {path : 'viewprofile/:id', component:UserProfileComponent},
+  {path : 'viewprofile/:id', component:UserProfileComponent,pathMatch: 'full'},
   {path: 'creategroup', component:CreateGroupComponent},
   {path: 'grouplisting', component:GroupListingComponent},
   {path: 'groupdetails/:groupId/:mailId', component:GroupDetailComponent},
