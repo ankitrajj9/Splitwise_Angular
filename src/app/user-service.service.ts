@@ -8,14 +8,14 @@ Observable;
 
 @Injectable()
 export class UserService {
-  private url= 'https://localhost:8443/users';
+  private url= 'http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/users';
 
   private usersUrl: string;
 
   token:any;
 
   constructor(private http: HttpClient) {
-    this.usersUrl = 'https://localhost:8443/users';
+    this.usersUrl = 'http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/users';
   }
 
   login(loginPayload) {
@@ -25,7 +25,7 @@ export class UserService {
         'Authorization': 'Basic ' + btoa('ankit:ankit@123')
       })
     }
-    return this.http.post('https://localhost:8443/oauth/token', loginPayload, headerTst);
+    return this.http.post('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/oauth/token', loginPayload, headerTst);
   }
 
   public findAll(): Observable<User[]> {
@@ -34,45 +34,45 @@ export class UserService {
 
   public save(user: User) {
     
-    return this.http.post<User>('https://localhost:8443/saveuser', user);
+    return this.http.post<User>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/saveuser', user);
   }
   public getUser(id): Observable<User>{
     return this.http.get<User>(`${this.url}/${id}`);
   }
 
   public getUserByMailId(emailId:string): any{
-    return this.http.get<User>(`https://localhost:8443/getUserByMailId/${emailId}`);
+    return this.http.get<User>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getUserByMailId/${emailId}`);
   }
 
   public update (user:User){
     return this.http.put<User>(`${this.url}`, user);
   }
   public searchUsers(param,fromMailId): Observable<User[]>{
-    return this.http.get<User[]>(`https://localhost:8443/searchusers/${param}/${fromMailId}`+'?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token);
+    return this.http.get<User[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/searchusers/${param}/${fromMailId}`+'?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token);
   }
   public followUser(fromMailId:any,toUserId:any) {
     const body = new HttpParams()
       .set('fromMailId', fromMailId)
       .set('toUserId', toUserId)
-    return this.http.post<any>('https://localhost:8443/followuser', body);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/followuser', body);
   }
   public unFollowUser(fromMailId:any,toUserId:any) {
     const body = new HttpParams()
       .set('fromMailId', fromMailId)
       .set('toUserId', toUserId)
-    return this.http.post<any>('https://localhost:8443/unfollowuser', body);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/unfollowuser', body);
   }
   public userFollows(fromMailId:any,toUserId:any) {
-    return this.http.get<any>(`https://localhost:8443/userfollows/${fromMailId}/${toUserId}`);
+    return this.http.get<any>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/userfollows/${fromMailId}/${toUserId}`);
   }
   public getFollowingUsers(fromMailId:any): Observable<User[]> {
-    return this.http.get<User[]>(`https://localhost:8443/getfollowingusers/${fromMailId}`);
+    return this.http.get<User[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getfollowingusers/${fromMailId}`);
   }
   public getFollowerUsers(fromMailId:any): Observable<User[]> {
-    return this.http.get<User[]>(`https://localhost:8443/getfollowerusers/${fromMailId}`);
+    return this.http.get<User[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getfollowerusers/${fromMailId}`);
   }
   public getDetails(fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:8443/getdetails/${fromMailId}`);
+    return this.http.get<any[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getdetails/${fromMailId}`);
   }
   public saveGroup(groupDetail:any,params:any) {
     const body = new HttpParams()
@@ -80,16 +80,16 @@ export class UserService {
     .set('groupDetail',JSON.stringify(groupDetail))
       .set('params', JSON.stringify(params))
       
-    return this.http.post<any>('https://localhost:8443/savegroup', body);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/savegroup', body);
   }
   public findGroups(fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:8443/grouplisting/${fromMailId}`);
+    return this.http.get<any[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/grouplisting/${fromMailId}`);
   }
   public getGroupDetails(groupId:any,mailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:8443/groupdetails/${groupId}/${mailId}`);
+    return this.http.get<any[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/groupdetails/${groupId}/${mailId}`);
   }
   public getGroupUsers(groupId:any): Observable<User[]> {
-    return this.http.get<User[]>(`https://localhost:8443/getgroupusers/${groupId}`);
+    return this.http.get<User[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getgroupusers/${groupId}`);
   }
   public addExpense(expenseDetail:any,users:User[],groupId:number) {
     const body = new HttpParams()
@@ -98,14 +98,14 @@ export class UserService {
     .set('expenseDetail',JSON.stringify(expenseDetail))
       .set('users', JSON.stringify(users))
       
-    return this.http.post<any>('https://localhost:8443/addexpense', body);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/addexpense', body);
   }
   public getSharedDetails(userId : any,fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:8443/getSharedWithdetails/${userId}/${fromMailId}`);
+    return this.http.get<any[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getSharedWithdetails/${userId}/${fromMailId}`);
   }
 
   public getSettleUpDetails(groupId : any,fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:8443/getsettleupdetails/${groupId}/${fromMailId}`);
+    return this.http.get<any[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getsettleupdetails/${groupId}/${fromMailId}`);
   }
 
   public settleUp (groupId:any,sessionUserEmail:any,toId:any,amount:any,flag:any,remarks:any){
@@ -116,28 +116,28 @@ export class UserService {
     .set('amount',amount)
     .set('flag',flag)
     .set('remarks',remarks)
-    return this.http.put<any>(`https://localhost:8443/settleuprequest`, body);
+    return this.http.put<any>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/settleuprequest`, body);
   }
   public uploadImage(imageFormData:FormData) {
-    return this.http.post<any>('https://localhost:8443/uploadImage', imageFormData);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/uploadImage', imageFormData);
   }
   
   public getUserImages(userId:any): Observable<any> {
-    return this.http.get<any>(`https://localhost:8443/getUserImages/${userId}`);
+    return this.http.get<any>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getUserImages/${userId}`);
   }
   public getGroupUserImages(groupId:any): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:8443/getAllUserImages/${groupId}`);
+    return this.http.get<any[]>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/getAllUserImages/${groupId}`);
   }
 
   public verifyEmail(encodedMail:string): any{
-    return this.http.get<any>(`https://localhost:8443/verifyemail/${encodedMail}`);
+    return this.http.get<any>(`http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/verifyemail/${encodedMail}`);
   }
 
   public resetPassword(emailId:any) {
     const body = new HttpParams()
     .set('emailId',emailId)
       
-    return this.http.post<any>('https://localhost:8443/resetpassword', body);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/resetpassword', body);
   }
 
   public changePassword(encodedMailId:any,password:any) {
@@ -145,15 +145,15 @@ export class UserService {
     .set('encodedMailId',encodedMailId)
     .set('password',password)
       
-    return this.http.post<any>('https://localhost:8443/changepassword', body);
+    return this.http.post<any>('http://splitter.ml:8080/AngularAPI-0.0.1-SNAPSHOT/changepassword', body);
   }
   public getAuthorizationCode(){
     const body = new HttpParams()
     .set('response_type','code')
     .set('client_id','javainuse')
-    .set('redirect_uri','http://localhost:4200/externallogin')
+    .set('redirect_uri','http://splitter.ml:4200/externallogin')
     .set('scope','read')
-    return this.http.post<any>('http://localhost:8081/oauth/authorize', body);
+    return this.http.post<any>('http://splitter.ml:8081/oauth/authorize', body);
   }
   public getTokenFromAuthorizationCode(code:any){
     const headerTst = {
@@ -164,10 +164,10 @@ export class UserService {
     const body = new HttpParams()
     .set('code',code)
     .set('grant_type','authorization_code')
-    .set('redirect_uri','http://localhost:4200/externallogin')
-    return this.http.post<any>('http://localhost:8081/oauth/token', body,headerTst);
+    .set('redirect_uri','http://splitter.ml:4200/externallogin')
+    return this.http.post<any>('http://splitter.ml:8081/oauth/token', body,headerTst);
   }
   public getTestData(token:any){
-    return this.http.get<any>(`http://localhost:8081/user/getEmployeesList`+'?access_token=' + token);
+    return this.http.get<any>(`http://splitter.ml:8081/user/getEmployeesList`+'?access_token=' + token);
   }
 }
