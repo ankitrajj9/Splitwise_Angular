@@ -13,8 +13,8 @@ export class UserProfileComponent implements OnInit {
   id:any;
   user : User
   fromMailId:any;
-  buttonText ='Follow';
-  buttonStyle='background-color:green';
+  buttonText:string
+  buttonStyle:string
   following = false;
   groups:Group[]
   uploadedImage: File;
@@ -28,6 +28,8 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
+      this.buttonText='Follow'
+      this.buttonStyle='background-color:green'
       this.id = params.get('id');
       this.user=new User();
     this.userservice.getUser(this.id)
@@ -35,7 +37,8 @@ export class UserProfileComponent implements OnInit {
         console.log(data)
         
         this.user = data;
-        
+        this.viewImage()
+      this.userFollows(this.id);
       }, error => console.log(error));
       this.userservice.getSharedDetails(this.id,window.sessionStorage.getItem('sessionUserEmail'))
       .subscribe(data => {
@@ -44,8 +47,7 @@ export class UserProfileComponent implements OnInit {
         this.groups = data;
         
       }, error => console.log(error));
-      this.viewImage()
-      this.userFollows(this.id);
+      
     });
     
   }
