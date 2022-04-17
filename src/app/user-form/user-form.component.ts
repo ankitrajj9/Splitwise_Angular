@@ -32,6 +32,11 @@ export class UserFormComponent {
   "hobbyName": "BasketBall"
 }
   ];
+  confirmPwd:string
+  emailExist:boolean
+  hideEmailValidation:boolean
+  hidePasswordValidation:boolean
+  hideHobbiesValidation:boolean
 
   constructor(
     private route: ActivatedRoute, 
@@ -41,6 +46,11 @@ export class UserFormComponent {
     this.user = new User();
   }
   ngOnInit():void{
+    this.confirmPwd=''
+    this.emailExist=false
+    this.hideEmailValidation=true
+    this.hidePasswordValidation=true
+    this.hideHobbiesValidation=true
     this.dropdownList = this.hobbiesList;
     this.dropdownSettings = {
       singleSelection: false,
@@ -52,7 +62,9 @@ export class UserFormComponent {
     };
   }
   onSubmit() {
+    if(this.formValidation() == true){
     this.userService.save(this.user).subscribe(result => this.gotoUserList());
+    }
   }
 
   gotoUserList() {  
@@ -62,5 +74,44 @@ export class UserFormComponent {
   }
   logIn(){
     this.router.navigate(['login']);
+  }
+  formValidation():boolean{
+    let vbool=true
+    
+    if(this.user.password != this.confirmPwd){
+      this.hidePasswordValidation=false
+      vbool=false
+    }
+    else{
+      this.hidePasswordValidation=true
+    }
+    if(this.emailExistsValidation() == true){
+      vbool=false
+    }
+    if(this.user.hobbies == undefined || this.user.hobbies.length == 0){
+      this.hideHobbiesValidation=false
+      vbool=false
+    }
+    else{
+      this.hideHobbiesValidation=true
+    }
+    return vbool
+  }
+  emailExistsValidation():boolean{
+    let exists=false
+    let tempMail = this.user.email
+    this.userService.emailExists(tempMail).subscribe(result => {
+      if(result == true){
+        this.hideEmailValidation=false
+        this.emailExist=true
+        exists=true
+        }
+      else{
+        this.hideEmailValidation=true
+        this.emailExist=false
+        exists=false
+      }
+    });
+    return exists
   }
 }

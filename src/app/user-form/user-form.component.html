@@ -1,45 +1,71 @@
 <app-disable-back></app-disable-back>
-<div class="card my-5" [hidden]="mainDiv">
-    <div class="card-body">
+<div class="card my-5" [hidden]="mainDiv" style="width: 600px;margin-left: auto;margin-right: auto;">
+    <div class="card-body" style="background-color: aliceblue;">
+      <mat-card style="margin:2em;">
+        <mat-card-title>Sign Up</mat-card-title>
+        <mat-card-content>
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
         <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" [(ngModel)]="user.name" 
-            class="form-control" 
-            id="name" 
-            name="name" 
-            placeholder="Enter your name"
-            required #name="ngModel">
-        </div>
-        <div [hidden]="!name.pristine" class="alert alert-danger">Name is required</div>
+          <mat-form-field>
+            <mat-label>Name:</mat-label>
+            <input matInput  [(ngModel)]="user.name" 
+          id="name"  placeholder="Enter Name"
+          name="name" 
+          required #name="ngModel">
+          <mat-icon matSuffix>account_circle</mat-icon>
+        </mat-form-field>
+      </div>
+
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="text" [(ngModel)]="user.email" 
-            class="form-control" 
-            id="email" 
-            name="email" 
-            placeholder="Enter your email address"
-            required #email="ngModel">
-          <div [hidden]="!email.pristine" class="alert alert-danger">Email is required</div>
+          <mat-form-field>
+            <mat-label>Email:</mat-label>
+            <input matInput  [(ngModel)]="user.email" 
+          id="email"  placeholder="Enter Email"
+          name="email" 
+          required #name="ngModel" (blur)="emailExistsValidation()">
+          <mat-icon matSuffix> email</mat-icon>
+        </mat-form-field>
+        <div [hidden]="hideEmailValidation" class="alert alert-danger">
+          Email Id already Exists
         </div>
+        </div>
+
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" [(ngModel)]="user.password" 
-            class="form-control" 
-            id="password" 
-            name="password" 
-            placeholder="Enter your password"
-            required #email="ngModel">
+          <mat-form-field>
+            <mat-label>Password:</mat-label>
+            <input matInput type="password"  [(ngModel)]="user.password" 
+          id="password"  placeholder="Enter Password"
+          name="password" 
+          required #name="ngModel">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+        </mat-form-field>
         </div>
+
         <div class="form-group">
-          <label for="age">Age</label>
-          <input type="text" [(ngModel)]="user.age" 
-            class="form-control" 
-            id="age" 
-            name="age" 
-            placeholder="Enter your Age"
-            required #email="ngModel">
+          <mat-form-field>
+            <mat-label>Confirm Password:</mat-label>
+            <input matInput  [(ngModel)]="confirmPwd" type="password"
+          id="confirmPwd"  placeholder="Confirm Password"
+          name="confirmPwd" 
+          required #name="ngModel">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+        </mat-form-field>
+        <div [hidden]="hidePasswordValidation" class="alert alert-danger">
+          Passwords do not match
         </div>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Age:</mat-label>
+            <input matInput  [(ngModel)]="user.age" 
+          id="age"  placeholder="Enter age"
+          name="age" 
+          required #name="ngModel">
+          <mat-icon matSuffix>date_range</mat-icon>
+        </mat-form-field>
+        </div>
+
         <div class="form-group">
           <label for="hobbies">Hobbies</label>
         <ng-multiselect-dropdown
@@ -48,14 +74,20 @@
         [settings]="dropdownSettings"
         [data]="dropdownList"
         [(ngModel)]="user.hobbies"
-       
-      >
+       >
       </ng-multiselect-dropdown>
+      <div [hidden]="hideHobbiesValidation" class="alert alert-danger">
+        Please select Hobbies
+      </div>
         </div>
-        <button type="submit" [disabled]="!userForm.form.valid" 
-          class="btn btn-info">Submit</button><br><br>
-          <button mat-raised-button color="primary" (click)="logIn()" >Already Have An Account . Please Log In</button>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">
+        Submit</button><br><br>
+        
+          
       </form>
+      </mat-card-content>
+      </mat-card>
     </div>
   </div>
   <div [hidden]="divShow" class="alert alert-success">Details saved Successfully . Please Log In to Continue
