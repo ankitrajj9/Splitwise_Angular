@@ -3,65 +3,92 @@
   <table>
     <tr>
       <td style="width: 50%;">
-    <div class="card-body" >
+    <div class="card-body" style="background-color: aliceblue;">
+      <mat-card style="margin:2em;">
+        <mat-card-title>Edit Details</mat-card-title>
+        <mat-card-content>
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
         <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" [(ngModel)]="user.name" 
-            class="form-control" 
-            id="name" 
-            name="name" 
-            placeholder="Enter your name"
-            required #name="ngModel">
-        </div>
+          <mat-form-field>
+            <mat-label>Name:</mat-label>
+            <input matInput  [(ngModel)]="user.name" 
+          id="name"  placeholder="Enter Name"
+          name="name" 
+          required #name="ngModel">
+          <mat-icon matSuffix>account_circle</mat-icon>
+        </mat-form-field>
+      </div>
        
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" [(ngModel)]="user.password" 
-            class="form-control" 
-            id="password" 
-            name="password" 
-            placeholder="Enter your password"
-            required #email="ngModel">
-        </div>
-        <div class="form-group">
-          <label for="age">Age</label>
-          <input type="text" [(ngModel)]="user.age" 
-            class="form-control" 
-            id="age" 
-            name="age" 
-            placeholder="Enter your Age"
-            required #email="ngModel">
-        </div>
-        <div class="form-group">
-          <label for="hobbies">Hobbies</label>
-        <ng-multiselect-dropdown
-        id="hobbies" 
-            name="hobbies" 
-        [settings]="dropdownSettings"
-        [data]="dropdownList"
-        [(ngModel)]="user.hobbies"
-       
-      >
-      </ng-multiselect-dropdown>
-        </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Password:</mat-label>
+          <input matInput type="password"  [(ngModel)]="user.password" 
+        id="password"  placeholder="Enter Password"
+        name="password" 
+        required #name="ngModel">
+        <mat-icon matSuffix>vpn_key</mat-icon>
+      </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Confirm Password:</mat-label>
+          <input matInput  [(ngModel)]="confirmPwd" type="password"
+        id="confirmPwd"  placeholder="Confirm Password"
+        name="confirmPwd" 
+        required #name="ngModel">
+        <mat-icon matSuffix>vpn_key</mat-icon>
+      </mat-form-field>
+      <div [hidden]="hidePasswordValidation" class="alert alert-danger">
+        Passwords do not match
+      </div>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Age:</mat-label>
+          <input matInput  [(ngModel)]="user.age" 
+        id="age"  placeholder="Enter age"
+        name="age" 
+        required #name="ngModel">
+        <mat-icon matSuffix>date_range</mat-icon>
+      </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label for="hobbies">Hobbies</label>
+      <ng-multiselect-dropdown
+      id="hobbies" 
+          name="hobbies" 
+      [settings]="dropdownSettings"
+      [data]="dropdownList"
+      [(ngModel)]="user.hobbies"
+     >
+    </ng-multiselect-dropdown>
+    <div [hidden]="hideHobbiesValidation" class="alert alert-danger">
+      Please select Hobbies
+    </div>
+      </div>
       <button type="submit" [disabled]="!userForm.form.valid" 
       class="btn btn-info">Update</button>
       </form>
-      
+    </mat-card-content>
+  </mat-card>
     </div>
     </td>
-    <td style="width: 50%;">
-      <div class="form-group" style="margin-left: 50px;">
+    <td style="width: 50%;" style="background-color: aliceblue;">
+      <mat-card style="margin:2em;">
+        <mat-card-title>Upload Photo</mat-card-title>
+        <mat-card-content>
+      <div class="card-body" style="margin-left: 50px;">
+        
         <img *ngIf="dbImage == undefined" src="./assets/profilepic.jpg"  class="example-header-image">
         <img *ngIf="dbImage != undefined" [src]="dbImage"  class="example-header-image">
     </div><br>
-      <div class="form-group" style="margin-left: 50px;">
+      <div class="card-body" style="margin-left: 50px;">
         <input type="file" (change)="onImageUpload($event)">
         <input type="button" (click)="uploadImage()" value="Upload Image" class="btn1">
     </div>
     
-  
+  </mat-card-content></mat-card>
 </td>
     </tr>
     </table>

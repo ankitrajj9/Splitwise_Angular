@@ -152,7 +152,7 @@ export class UserService {
     const body = new HttpParams()
     .set('response_type','code')
     .set('client_id','javainuse')
-    .set('redirect_uri','http://localhost/externallogin')
+    .set('redirect_uri','http://localhost:4200/externallogin')
     .set('scope','read')
     return this.http.post<any>('http://localhost:8081/oauth/authorize', body);
   }

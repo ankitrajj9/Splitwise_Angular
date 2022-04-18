@@ -30,6 +30,11 @@ hobbiesList : UserHobby[] ;
 dropdownList = [];
   selectedItems = [];
   dropdownSettings:IDropdownSettings = {};
+  confirmPwd:string
+  emailExist:boolean
+  hideEmailValidation:boolean
+  hidePasswordValidation:boolean
+  hideHobbiesValidation:boolean
 
   constructor(private userservice:UserService,
     private route:ActivatedRoute,private router:Router,private fb: FormBuilder) { 
@@ -37,6 +42,10 @@ dropdownList = [];
   }
 
   ngOnInit(): void {
+    this.emailExist=false
+    this.hideEmailValidation=true
+    this.hidePasswordValidation=true
+    this.hideHobbiesValidation=true
     this.user=new User();
     this.id = this.route.snapshot.params['id'];
     this.userservice.getUser(this.id)
@@ -44,6 +53,7 @@ dropdownList = [];
         console.log(data)
         
         this.user = data;
+        this.confirmPwd=this.user.password
         
       }, error => console.log(error));
       this.hobbiesList= [
@@ -82,7 +92,9 @@ dropdownList = [];
   }
  
   onSubmit() {
+    if(this.formValidation() == true){
     this.userservice.update(this.user).subscribe(result => this.gotoUserList());
+    }
   }
 
   public onImageUpload(event) {
@@ -110,6 +122,26 @@ dropdownList = [];
         }
       }
     )
+  }
+  formValidation():boolean{
+    let vbool=true
+    
+    if(this.user.password != this.confirmPwd){
+      this.hidePasswordValidation=false
+      vbool=false
+    }
+    else{
+      this.hidePasswordValidation=true
+    }
+    
+    if(this.user.hobbies == undefined || this.user.hobbies.length == 0){
+      this.hideHobbiesValidation=false
+      vbool=false
+    }
+    else{
+      this.hideHobbiesValidation=true
+    }
+    return vbool
   }
   
 }
