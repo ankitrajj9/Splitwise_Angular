@@ -4,18 +4,22 @@ import { User } from './user';
 import {Observable } from  'rxjs';
 import {HttpParams } from '@angular/common/http';
 import {Group} from './group'
+import { environment } from '../environments/environment';
 Observable;
 
 @Injectable()
 export class UserService {
   private url= 'http://localhost:8080/users';
+  private angular_url=environment.angular_url;
+  private splitter_url=environment.splitter_url;
+  private boot_demo_url=environment.boot_demo_url;
 
   private usersUrl: string;
 
   token:any;
 
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/users';
+    this.usersUrl = this.splitter_url+'/users';
   }
 
   login(loginPayload) {
@@ -25,7 +29,7 @@ export class UserService {
         'Authorization': 'Basic ' + btoa('ankit:ankit@123')
       })
     }
-    return this.http.post('http://localhost:8080/oauth/token', loginPayload, headerTst);
+    return this.http.post(this.splitter_url+'/oauth/token', loginPayload, headerTst);
   }
 
   public findAll(): Observable<User[]> {
@@ -34,45 +38,45 @@ export class UserService {
 
   public save(user: User) {
     
-    return this.http.post<User>('http://localhost:8080/saveuser', user);
+    return this.http.post<User>(this.splitter_url+'/saveuser', user);
   }
   public getUser(id): Observable<User>{
-    return this.http.get<User>(`${this.url}/${id}`);
+    return this.http.get<User>(this.splitter_url+`/users/${id}`);
   }
 
   public getUserByMailId(emailId:string): any{
-    return this.http.get<User>(`http://localhost:8080/getUserByMailId/${emailId}`);
+    return this.http.get<User>(this.splitter_url+`/getUserByMailId/${emailId}`);
   }
 
   public update (user:User){
-    return this.http.put<User>(`${this.url}`, user);
+    return this.http.put<User>(this.splitter_url+'/users', user);
   }
   public searchUsers(param,fromMailId): Observable<User[]>{
-    return this.http.get<User[]>(`http://localhost:8080/searchusers/${param}/${fromMailId}`+'?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token);
+    return this.http.get<User[]>(this.splitter_url+`/searchusers/${param}/${fromMailId}`+'?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token);
   }
   public followUser(fromMailId:any,toUserId:any) {
     const body = new HttpParams()
       .set('fromMailId', fromMailId)
       .set('toUserId', toUserId)
-    return this.http.post<any>('http://localhost:8080/followuser', body);
+    return this.http.post<any>(this.splitter_url+'/followuser', body);
   }
   public unFollowUser(fromMailId:any,toUserId:any) {
     const body = new HttpParams()
       .set('fromMailId', fromMailId)
       .set('toUserId', toUserId)
-    return this.http.post<any>('http://localhost:8080/unfollowuser', body);
+    return this.http.post<any>(this.splitter_url+'/unfollowuser', body);
   }
   public userFollows(fromMailId:any,toUserId:any) {
-    return this.http.get<any>(`http://localhost:8080/userfollows/${fromMailId}/${toUserId}`);
+    return this.http.get<any>(this.splitter_url+`/userfollows/${fromMailId}/${toUserId}`);
   }
   public getFollowingUsers(fromMailId:any): Observable<User[]> {
-    return this.http.get<User[]>(`http://localhost:8080/getfollowingusers/${fromMailId}`);
+    return this.http.get<User[]>(this.splitter_url+`/getfollowingusers/${fromMailId}`);
   }
   public getFollowerUsers(fromMailId:any): Observable<User[]> {
-    return this.http.get<User[]>(`http://localhost:8080/getfollowerusers/${fromMailId}`);
+    return this.http.get<User[]>(this.splitter_url+`/getfollowerusers/${fromMailId}`);
   }
   public getDetails(fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/getdetails/${fromMailId}`);
+    return this.http.get<any[]>(this.splitter_url+`/getdetails/${fromMailId}`);
   }
   public saveGroup(groupDetail:any,params:any) {
     const body = new HttpParams()
@@ -80,16 +84,16 @@ export class UserService {
     .set('groupDetail',JSON.stringify(groupDetail))
       .set('params', JSON.stringify(params))
       
-    return this.http.post<any>('http://localhost:8080/savegroup', body);
+    return this.http.post<any>(this.splitter_url+'/savegroup', body);
   }
   public findGroups(fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/grouplisting/${fromMailId}`);
+    return this.http.get<any[]>(this.splitter_url+`/grouplisting/${fromMailId}`);
   }
   public getGroupDetails(groupId:any,mailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/groupdetails/${groupId}/${mailId}`);
+    return this.http.get<any[]>(this.splitter_url+`/groupdetails/${groupId}/${mailId}`);
   }
   public getGroupUsers(groupId:any): Observable<User[]> {
-    return this.http.get<User[]>(`http://localhost:8080/getgroupusers/${groupId}`);
+    return this.http.get<User[]>(this.splitter_url+`/getgroupusers/${groupId}`);
   }
   public addExpense(expenseDetail:any,users:User[],groupId:number) {
     const body = new HttpParams()
@@ -98,14 +102,14 @@ export class UserService {
     .set('expenseDetail',JSON.stringify(expenseDetail))
       .set('users', JSON.stringify(users))
       
-    return this.http.post<any>('http://localhost:8080/addexpense', body);
+    return this.http.post<any>(this.splitter_url+'/addexpense', body);
   }
   public getSharedDetails(userId : any,fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/getSharedWithdetails/${userId}/${fromMailId}`);
+    return this.http.get<any[]>(this.splitter_url+`/getSharedWithdetails/${userId}/${fromMailId}`);
   }
 
   public getSettleUpDetails(groupId : any,fromMailId:any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/getsettleupdetails/${groupId}/${fromMailId}`);
+    return this.http.get<any[]>(this.splitter_url+`/getsettleupdetails/${groupId}/${fromMailId}`);
   }
 
   public settleUp (groupId:any,sessionUserEmail:any,toId:any,amount:any,flag:any,remarks:any){
@@ -116,28 +120,28 @@ export class UserService {
     .set('amount',amount)
     .set('flag',flag)
     .set('remarks',remarks)
-    return this.http.put<any>(`http://localhost:8080/settleuprequest`, body);
+    return this.http.put<any>(this.splitter_url+`/settleuprequest`, body);
   }
   public uploadImage(imageFormData:FormData) {
-    return this.http.post<any>('http://localhost:8080/uploadImage', imageFormData);
+    return this.http.post<any>(this.splitter_url+'/uploadImage', imageFormData);
   }
   
   public getUserImages(userId:any): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/getUserImages/${userId}`);
+    return this.http.get<any>(this.splitter_url+`/getUserImages/${userId}`);
   }
   public getGroupUserImages(groupId:any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/getAllUserImages/${groupId}`);
+    return this.http.get<any[]>(this.splitter_url+`/getAllUserImages/${groupId}`);
   }
 
   public verifyEmail(encodedMail:string): any{
-    return this.http.get<any>(`http://localhost:8080/verifyemail/${encodedMail}`);
+    return this.http.get<any>(this.splitter_url+`/verifyemail/${encodedMail}`);
   }
 
   public resetPassword(emailId:any) {
     const body = new HttpParams()
     .set('emailId',emailId)
       
-    return this.http.post<any>('http://localhost:8080/resetpassword', body);
+    return this.http.post<any>(this.splitter_url+'/resetpassword', body);
   }
 
   public changePassword(encodedMailId:any,password:any) {
@@ -145,16 +149,16 @@ export class UserService {
     .set('encodedMailId',encodedMailId)
     .set('password',password)
       
-    return this.http.post<any>('http://localhost:8080/changepassword', body);
+    return this.http.post<any>(this.splitter_url+'/changepassword', body);
   }
   public getAuthorizationCode(){
     // http://localhost:8081/oauth/authorize
     const body = new HttpParams()
     .set('response_type','code')
     .set('client_id','javainuse')
-    .set('redirect_uri','http://localhost:4200/externallogin')
+    .set('redirect_uri',this.angular_url+'/externallogin')
     .set('scope','read')
-    return this.http.post<any>('http://localhost:8081/oauth/authorize', body);
+    return this.http.post<any>(this.boot_demo_url+'/oauth/authorize', body);
   }
   public getTokenFromAuthorizationCode(code:any){
     // http://localhost:8081/oauth/token
@@ -166,15 +170,15 @@ export class UserService {
     const body = new HttpParams()
     .set('code',code)
     .set('grant_type','authorization_code')
-    .set('redirect_uri','http://localhost:4200/externallogin')
-    return this.http.post<any>('http://localhost:8081/oauth/token', body,headerTst);
+    .set('redirect_uri',this.angular_url+'/externallogin')
+    return this.http.post<any>(this.boot_demo_url+'/oauth/token', body,headerTst);
   }
   public getTestData(token:any){
     // http://localhost:8081/user/getEmployeesList
-    return this.http.get<any>(`http://localhost:8081/user/getEmployeesList`+'?access_token=' + token);
+    return this.http.get<any>(this.boot_demo_url+`/user/getEmployeesList`+'?access_token=' + token);
   }
 
   public emailExists(emailId:string): any{
-    return this.http.get<any>(`http://localhost:8080/emailExists/${emailId}`);
+    return this.http.get<any>(this.splitter_url+`/emailExists/${emailId}`);
   }
 }
