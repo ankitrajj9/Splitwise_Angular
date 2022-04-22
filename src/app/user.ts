@@ -6,7 +6,7 @@ export class User {
     name: string;
     email: string;
     password: string;
-    age:number;
+    dateOfBirth:String
     hobbies:UserHobby[];
     cstatus:number
     isExternal:number

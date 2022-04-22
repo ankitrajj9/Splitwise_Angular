@@ -42,6 +42,8 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DisableBackComponent } from './disable-back/disable-back.component';
 import {MatInputModule} from '@angular/material/input';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import {TokenInterceptorService} from './token-interceptor.service';
 import { ExternalLoginComponent } from './external-login/external-login.component';
@@ -91,7 +93,9 @@ import { ExternalLoginComponent } from './external-login/external-login.componen
    MatBadgeModule,
    LoadingBarModule,
    LoadingBarRouterModule,
-   MatInputModule
+   MatInputModule,
+   MatNativeDateModule,
+   MatDatepickerModule
   ],
   providers: [UserService,
   {

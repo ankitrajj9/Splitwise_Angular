@@ -166,7 +166,7 @@ export class UserService {
     const body = new HttpParams()
     .set('code',code)
     .set('grant_type','authorization_code')
-    .set('redirect_uri','http://localhost/externallogin')
+    .set('redirect_uri','http://localhost:4200/externallogin')
     return this.http.post<any>('http://localhost:8081/oauth/token', body,headerTst);
   }
   public getTestData(token:any){

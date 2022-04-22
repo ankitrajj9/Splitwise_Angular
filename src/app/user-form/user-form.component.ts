@@ -63,6 +63,7 @@ export class UserFormComponent {
   }
   onSubmit() {
     if(this.formValidation() == true){
+      this.user.dateOfBirth=this.getFormattedDate(this.user.dateOfBirth)
     this.userService.save(this.user).subscribe(result => this.gotoUserList());
     }
   }
@@ -113,5 +114,16 @@ export class UserFormComponent {
       }
     });
     return exists
+  }
+   getFormattedDate(date) {
+    var year = date.getFullYear();
+  
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+  
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    
+    return day + '/' + month + '/' + year;
   }
 }

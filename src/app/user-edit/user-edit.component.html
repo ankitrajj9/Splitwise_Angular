@@ -43,16 +43,17 @@
         Passwords do not match
       </div>
       </div>
+
       <div class="form-group">
-        <mat-form-field>
-          <mat-label>Age:</mat-label>
-          <input matInput  [(ngModel)]="user.age" 
-        id="age"  placeholder="Enter age"
-        name="age" 
-        required #name="ngModel">
-        <mat-icon matSuffix>date_range</mat-icon>
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Date of Birth:</mat-label>
+          <input matInput [matDatepicker]="dateOfBirth" id="dateOfBirth" name="dateOfBirth" required #name="ngModel" [(ngModel)]="tempDate">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+          <mat-datepicker #dateOfBirth></mat-datepicker>
+        </mat-form-field>
       </div>
+      
       <div class="form-group">
         <label for="hobbies">Hobbies</label>
       <ng-multiselect-dropdown

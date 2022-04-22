@@ -44,12 +44,12 @@ export class ExternalLoginComponent implements OnInit {
           console.log(data);
             console.log('User Details Received . . . Now saving')
             this.user = new User()
-            this.user.age=this.userDetail.age
+            this.user.dateOfBirth=this.userDetail.dateOfBirth
             this.user.name=this.userDetail.name
             this.user.email=this.userDetail.emailId
             this.user.password=this.userDetail.name+'@123'
             this.user.cstatus=1
-            this.user.isExternal=0
+            this.user.isExternal=1
             this.user.hobbies=this.userDetail.hobbies
           this.userService.save(this.user).subscribe(
             data => {
@@ -94,4 +94,5 @@ export class ExternalLoginComponent implements OnInit {
     document.getElementById('loading')
         .style.display = 'none';
 }
+
 }

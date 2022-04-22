@@ -35,6 +35,7 @@ dropdownList = [];
   hideEmailValidation:boolean
   hidePasswordValidation:boolean
   hideHobbiesValidation:boolean
+  tempDate:Date
 
   constructor(private userservice:UserService,
     private route:ActivatedRoute,private router:Router,private fb: FormBuilder) { 
@@ -51,10 +52,13 @@ dropdownList = [];
     this.userservice.getUser(this.id)
       .subscribe(data => {
         console.log(data)
-        
         this.user = data;
         this.confirmPwd=this.user.password
-        
+        this.tempDate=new Date()
+       this.tempDate.setDate(parseInt(data.dateOfBirth.split('/')[0]))
+       this.tempDate.setMonth(parseInt(data.dateOfBirth.split('/')[1])-1)
+       this.tempDate.setFullYear(parseInt(data.dateOfBirth.split('/')[2]))
+
       }, error => console.log(error));
       this.hobbiesList= [
         {
@@ -93,6 +97,7 @@ dropdownList = [];
  
   onSubmit() {
     if(this.formValidation() == true){
+      this.user.dateOfBirth=this.getFormattedDate(this.tempDate)
     this.userservice.update(this.user).subscribe(result => this.gotoUserList());
     }
   }
@@ -143,5 +148,15 @@ dropdownList = [];
     }
     return vbool
   }
+  getFormattedDate(date):string {
+    var year = date.getFullYear();
   
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+  
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    
+    return day + '/' + month + '/' + year;
+  }
 }
