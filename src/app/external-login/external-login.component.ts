@@ -3,6 +3,7 @@ import { UserService } from '../user-service.service';
 import { Router ,ActivatedRoute} from '@angular/router';
 import { User } from '../user';
 import {HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-external-login',
@@ -16,6 +17,9 @@ export class ExternalLoginComponent implements OnInit {
   tempToken:string
   dt: any;
     dataDisplay: any;
+    public angular_url=environment.angular_url;
+    public splitter_url=environment.splitter_url;
+    public boot_demo_url=environment.boot_demo_url;
 
   constructor(private userService: UserService,private router: Router,private route:ActivatedRoute) {
     

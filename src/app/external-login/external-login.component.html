@@ -6,10 +6,10 @@
       <tr><td fxFlex>
     <mat-card style="margin:2em;">
         <mat-card-content>
-<form ngNoForm  action="http://localhost:8081/oauth/authorize">
+<form ngNoForm  action="{{boot_demo_url}}/oauth/authorize">
     <input hidden name="response_type" value="code" type="text" >
     <input hidden name="client_id" value="javainuse" type="text" >
-    <input hidden name="redirect_uri" value="http://localhost:4200/externallogin" type="text">
+    <input hidden name="redirect_uri" value="{{angular_url}}/externallogin" type="text">
     <input hidden name="scope" value="read" type="text" >
     <button  mat-button mat-raised-button color="accent" type="SUBMIT">Continue LogIn With BootDemo</button>
 </form>
