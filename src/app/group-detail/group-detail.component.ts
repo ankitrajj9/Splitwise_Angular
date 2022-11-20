@@ -8,6 +8,9 @@ import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 import Swal from 'sweetalert2';
 
 import {User} from '../user'
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-group-detail',
@@ -43,11 +46,37 @@ groupUserImages:any[]
 hidden = false;
 view:any
 
+private serverUrl = 'http://localhost:8080/socket'
+  //private title = 'WebSockets chat';
+  private stompClient;
+  
+initializeWebSocketConnection(){
+    let ws = new SockJS(this.serverUrl);
+    this.stompClient = Stomp.over(ws);
+    let that = this;
+    this.stompClient.connect({}, frame => {
+      that.stompClient.subscribe(`/chat/${this.id}/${atob(this.route.snapshot.params['mailId'])}`, (message) => {
+        if(message.body) {
+          //$(".chat").append("<div class='message'>"+message.body+"</div>")
+          //console.log(message.body);
+          this.addExpense();
+        }
+      });
+    });
+  }
+
+  sendMessage(groupId:any,toId:any){
+    this.stompClient.send("/app/send/message" , {}, btoa(`${groupId}_${toId}`));
+    //$('#input').val('');
+  }
+
   toggleBadgeVisibility() {
     this.hidden = true;
   }
 
-  constructor(private userService: UserService,private router: Router,private route:ActivatedRoute,private modalService: NgbModal) { }
+  constructor(private userService: UserService,private router: Router,private route:ActivatedRoute,private modalService: NgbModal) { 
+    this.initializeWebSocketConnection();
+  }
 
   ngOnInit(): void {
     this.group=new Group()
@@ -249,6 +278,7 @@ view:any
         }
         this.divHide=false
         this.setTimer()
+        this.sendMessage(this.id,toId);
         });
       }
     })

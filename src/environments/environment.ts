@@ -7,6 +7,7 @@ export const environment = {
   angular_url: 'http://localhost:4200',
   splitter_url: 'http://localhost:8080',
   boot_demo_url: 'http://localhost:8081',
+  socket_url: 'http://localhost:8080/socket'
 };
 
 /*
