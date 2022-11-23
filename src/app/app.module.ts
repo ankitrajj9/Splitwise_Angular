@@ -47,6 +47,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import {TokenInterceptorService} from './token-interceptor.service';
 import { ExternalLoginComponent } from './external-login/external-login.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ExternalLoginComponent } from './external-login/external-login.componen
     VerifyEmailComponent,
     ResetPasswordComponent,
     DisableBackComponent,
-    ExternalLoginComponent
+    ExternalLoginComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
