@@ -11,6 +11,7 @@ import {User} from '../user'
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import $ from 'jquery';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-group-detail',
@@ -45,17 +46,18 @@ myShareDetails:any[]
 groupUserImages:any[]
 hidden = false;
 view:any
+private socket_url=environment.socket_url;
 
 private serverUrl = 'http://localhost:8080/socket'
   //private title = 'WebSockets chat';
   private stompClient;
   
 initializeWebSocketConnection(){
-    let ws = new SockJS(this.serverUrl);
+    let ws = new SockJS(this.socket_url);
     this.stompClient = Stomp.over(ws);
     let that = this;
     this.stompClient.connect({}, frame => {
-      that.stompClient.subscribe(`/chat/${this.id}/${atob(this.route.snapshot.params['mailId'])}`, (message) => {
+      that.stompClient.subscribe(`/settleup/${this.id}/${atob(this.route.snapshot.params['mailId'])}`, (message) => {
         if(message.body) {
           //$(".chat").append("<div class='message'>"+message.body+"</div>")
           //console.log(message.body);

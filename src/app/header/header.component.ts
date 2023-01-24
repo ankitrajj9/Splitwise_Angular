@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user-service.service';
 import  {ActivatedRoute,Route,Router} from '@angular/router';
 import $ from 'jquery';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+import { environment } from '../../environments/environment';
+import {Howl} from 'howler';
 
 @Component({
   selector: 'app-header',
@@ -20,15 +24,32 @@ dbImage: any;
   mailId:string
   fromMailId:any;
   following: boolean
+  currentUserId:any
+  private socket_url=environment.socket_url;
+  @Input() notificationhide:boolean=true
+  @Input() unreadcount:string='0'
+  incomingMsgSound:Howl
+
+private serverUrl = 'http://localhost:8080/socket'
+  //private title = 'WebSockets chat';
+  private stompClient;
   constructor(private userservice:UserService,
-    private route:ActivatedRoute,private router:Router) { }
+    private route:ActivatedRoute,private router:Router) {
+      this.initializeWebSocketConnection();
+     }
 
   ngOnInit(): void {
     this.following=false
     this.mailId=window.sessionStorage.getItem('sessionUserEmail');
+    this.incomingMsgSound = new Howl({  
+      src: ['./assets/incoming_msg.mp3']
+    });
+    
+    
     this.user = new User()
     this.userservice.getUserByMailId(window.sessionStorage.getItem('sessionUserEmail')).subscribe(data => {
       this.user = data;
+      this.currentUserId=this.user.id
     this.userservice.getUserImages(this.user.id).subscribe(
       res => {
         console.log('VIEW IMAGE Response')
@@ -39,8 +60,45 @@ dbImage: any;
         }
       }
     )
+    this.userservice.getUnreadCount(this.user.id).subscribe(
+      unread => {
+        console.log(unread)
+        this.unreadcount=unread
+        if(this.unreadcount != '0'){
+          this.notificationhide=false
+        }
+      }
+    )
     });
   }
+
+  initializeWebSocketConnection(){
+    let ws = new SockJS(this.socket_url);
+    this.stompClient = Stomp.over(ws);
+    let that = this;
+    this.stompClient.connect({}, frame => {
+      that.stompClient.subscribe(`/chatnotification/${this.user.id}`, (message) => {
+        if(message.body) {
+          //$(".chat").append("<div class='message'>"+message.body+"</div>")
+          //console.log(message.body);
+          this.userservice.getUnreadCount(this.user.id).subscribe(
+            unread => {
+              this.incomingMsgSound.play();
+              console.log(unread)
+              this.unreadcount=unread
+              if(this.unreadcount != '0'){
+                this.notificationhide=false
+              }
+            }
+          )
+        }
+      });
+    });
+  }
+
+getUnreadMessageCount():any{
+
+}
 
   userFollows(toUserId: any):boolean{
     this.fromMailId = window.sessionStorage.getItem('sessionUserEmail');
@@ -116,6 +174,8 @@ dbImage: any;
       
 
   }
-  
+  gotoMessageDetails(userId:any,recipientId:any) {
+    this.router.navigate([`/messages/${userId}/${recipientId}`]);
+  }
   
 }

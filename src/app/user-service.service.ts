@@ -5,6 +5,7 @@ import {Observable } from  'rxjs';
 import {HttpParams } from '@angular/common/http';
 import {Group} from './group'
 import { environment } from '../environments/environment';
+import { MessageDetail } from './message-detail';
 Observable;
 
 @Injectable()
@@ -180,5 +181,67 @@ export class UserService {
 
   public emailExists(emailId:string): any{
     return this.http.get<any>(this.splitter_url+`/emailExists/${emailId}`);
+  }
+
+  public saveMessageDetail(messageDetail: any) {
+    
+    return this.http.post<User>(this.splitter_url+'/savemessage', messageDetail);
+  }
+
+  public getMessages(userId:number): any{
+    return this.http.get<any>(this.splitter_url+`/getmessages/${userId}`);
+  }
+
+  public getMessageDetails(userId:number,recipientId:number): any{
+    return this.http.get<any>(this.splitter_url+`/getmessagedetail/${userId}/${recipientId}`);
+  }
+
+  public getMessagesAndImage(userId:number): any{
+    return this.http.get<any>(this.splitter_url+`/getmessagesandimage/${userId}`);
+  }
+
+  public uploadChatImage(imageFormData:FormData) {
+    return this.http.post<any>(this.splitter_url+'/uploadChatImage', imageFormData);
+  }
+
+  public getMessageBetweenUsers(userId:number,recipientId:number): any{
+    return this.http.get<any>(this.splitter_url+`/getmessagesbetweenusers/${userId}/${recipientId}`);
+  }
+
+  public getUnreadCount(userId:any): any{
+    return this.http.get<any>(this.splitter_url+`/getunreadcount/${userId}`);
+  }
+
+  public updateMessageDetailRead(toId:any,fromId:any):any{
+    return this.http.post<any>(this.splitter_url+`/readMessage/${toId}/${fromId}`,'');
+  }
+  public getUnreadMsgUsers(toId:any): any{
+    return this.http.get<any>(this.splitter_url+`/getunreadmsgusers/${toId}`);
+  }
+  public getMsgDetailCount(userId:any,recipientId:any):any{
+    return this.http.get<any>(this.splitter_url+`/getcountmessagedetail/${userId}/${recipientId}`);
+  }
+  public getMessageDetailsWithLimitAndOffset(userId:number,recipientId:number,limit:number,offset:number): any{
+    return this.http.get<any>(this.splitter_url+`/getlimitedmessagedetail/${userId}/${recipientId}/${limit}/${offset}`);
+  }
+
+  public getInitialMessageDetails(userId:number,recipientId:number): any{
+    return this.http.get<any>(this.splitter_url+`/getstartmessagedetails/${userId}/${recipientId}`);
+  }
+
+  public getNextMessageDetails(userId:number,recipientId:number,lastMaxId:number): any{
+    return this.http.get<any>(this.splitter_url+`/getnextmessagedetails/${userId}/${recipientId}/${lastMaxId}`);
+  }
+
+  public getMaxMsgDtlId():any{
+    return this.http.get<any>(this.splitter_url+`/getmaxmessagedetailid`);
+  }
+
+  public getInitialMsgDtlId(userId:number,recipientId:number):any{
+    return this.http.get<any>(this.splitter_url+`/getinitialmessagedetailid/${userId}/${recipientId}`);
+  }
+
+  public getUserWiseUnreadCount(userId:number):any{
+    return this.http.get<any>(this.splitter_url+`/getuserwiseunreadcount/${userId}`);
   }
 }

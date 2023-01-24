@@ -37,7 +37,8 @@ const routes: Routes = [
   {path: 'resetpassword/:encodedMailId', component:ResetPasswordComponent},
   {path: 'externallogin', component:ExternalLoginComponent},
   {path: 'externallogin/:code', component:ExternalLoginComponent},
-  {path: 'messages/:id',component:MessagesComponent}
+  {path: 'messages/:userId',component:MessagesComponent},
+  {path: 'messages/:userId/:recipientId',component:MessagesComponent}
 ];
 
 @NgModule({

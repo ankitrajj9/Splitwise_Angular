@@ -17,7 +17,7 @@
          >
       </mat-form-field>
         <button routerLink="/getusers" mat-button>Show Users</button>
-        <button routerLink="/messages/{{user.id}}" mat-button><mat-icon>message</mat-icon>Messages</button>
+        <button routerLink="/messages/{{user.id}}" mat-button ><mat-icon [matBadge]="unreadcount" overlap="false" matBadgePosition="before" [matBadgeHidden]="notificationhide || (unreadcount == '0')" matBadgeColor="accent">message</mat-icon>Messages</button>
         <button routerLink="/creategroup" mat-button>Create Group</button>
         <button [matMenuTriggerFor]="profile"  mat-button><mat-icon>account_circle</mat-icon>
      {{user.name}}</button>
@@ -60,7 +60,7 @@
             -->
             <button type="submit" mat-button id="color_{{user.id}}"
           class="btn btn-info" [ngStyle]="{'background-color': (user.followStatus === false) ? 'green' : 'red'}" (click)="followunfollowUser(user.id,$event)">{{user.followStatus === false ? 'Follow' : 'UnFollow'}}</button>
-            <button mat-raised-button color="accent"><mat-icon>message</mat-icon>Message</button>
+            <button mat-raised-button color="accent" (click)="gotoMessageDetails(currentUserId,user.id)"><mat-icon>message</mat-icon>Message</button>
           </mat-card-actions>
             </mat-card>
             </div>

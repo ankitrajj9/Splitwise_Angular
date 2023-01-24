@@ -1,2 +1,155 @@
-<app-header></app-header>
+<app-header
+[notificationhide]="hidedisplay"
+[unreadcount]="count"
+></app-header>
 <app-user-search></app-user-search>
+<div class="container-fluid h-50">
+    <div class="row justify-content-center h-100">
+      <div class="col-md-4 col-xl-3 chat" style="width: 35%;"><div class="card mb-sm-3 mb-md-0 contacts_card">
+        <div class="card-header">
+          <div class="input-group">
+            <input type="text" placeholder="Search..." name="" class="form-control search" (keyup)="searchUser($event)">
+            <div class="input-group-prepend">
+            </div>
+          </div>
+        </div>
+        <div class="card-body contacts_body">
+          <ul class="contacts">
+            <li  *ngIf="(messages == undefined || messages.length == 0) && showNoMsg">
+              <div class="d-flex bd-highlight" >
+                <div class="img_cont">
+                  <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+                  </div>
+                <div class="user_info">
+                  <span>No Messages</span>
+                  <p>Search Users to start a chat</p>
+                </div>
+              </div>
+            </li>
+            <div *ngIf="show">
+              <li *ngFor="let user of users">
+                <div class="d-flex bd-highlight" style="cursor: pointer;" (click)="gotoMessageDetails(userId,user.id)">
+                  <div class="img_cont">
+                    <img *ngIf="user.userImage == undefined" src="./assets/profilepic.jpg" class="rounded-circle user_img" />
+                    <img *ngIf="user.userImage != undefined" src="data:image/jpeg;base64,{{user.userImage.image}}" class="rounded-circle user_img" />
+                    <span class="online_icon"></span>
+                  </div>
+                  <div class="user_info">
+                    <span>{{user.name}}</span>
+                    <p>{{user.name}} is online</p>
+                  </div>
+                </div>
+              </li>
+            </div>
+            <div id="msgList" *ngIf="messages != undefined">
+              <li *ngIf="!isMessageExist && recipientId != undefined">
+                <div id="msgHover" class="d-flex bd-highlight selectedMsg" style="cursor: pointer;" (click)="gotoMessageDetails(userId,recipientId)">
+                  <div class="img_cont">
+                   
+                    <img src="{{recipientImage == undefined ? './assets/profilepic.jpg' : recipientImage}}" class="rounded-circle user_img">
+                    
+                     <!--<img src="./assets/profilepic.jpg" class="rounded-circle user_img">
+  -->
+                  <span class="online_icon"></span>
+                  </div>
+                  <div class="user_info">
+                    <span>{{recipientUser.name}}</span>
+                    <p>{{recipientUser.name}} is online</p>
+                  </div>
+                </div>
+              </li>
+            <li *ngFor="let message of messages">
+              <div id="msgHover" class="d-flex bd-highlight {{(recipientId == message.partyB.id || recipientId == message.partyA.id) ? 'selectedMsg' : ''}} {{unreadFromUsers != undefined ? (unreadFromUsers[message.partyA.id] != undefined || unreadFromUsers[message.partyB.id] != undefined) ? 'unreadmsg' : '' : ''}}" style="cursor: pointer;" (click)="gotoMessageDetails(userId,message.partyA.id == userId ? message.partyB.id : message.partyA.id)">
+                <div class="img_cont">
+                 
+                  <img src="{{groupUserImages == undefined ? './assets/profilepic.jpg' : (groupUserImages[message.partyA.id == userId ? message.partyB.id : message.partyA.id] != undefined) ? 'data:image/jpeg;base64,'+groupUserImages[message.partyA.id == userId ? message.partyB.id : message.partyA.id].image : './assets/profilepic.jpg' }}" class="rounded-circle user_img">
+                  <!--<img *ngIf="groupUserImages[message.partyA.id == userId ? message.partyB.id : message.partyA.id] == undefined" src="./assets/profilepic.jpg" class="rounded-circle user_img">
+                    -->
+                   <!--<img src="./assets/profilepic.jpg" class="rounded-circle user_img">
+-->
+                <span class="online_icon"></span>
+                </div>
+                <div class="user_info">
+                  <span>{{message.partyA.id == userId ? message.partyB.name : message.partyA.name}}</span>
+                  <p>{{message.partyA.id == userId ? message.partyB.name : message.partyA.name}} is online</p>
+                </div>
+                <span *ngIf="recipientId != message.partyB.id && recipientId != message.partyA.id" class="{{userWiseUnread != undefined ? (userWiseUnread[message.partyA.id] != undefined || userWiseUnread[message.partyB.id] != undefined) ? 'unreaddot' : '' : ''}}"><b>{{userWiseUnread != undefined ? userWiseUnread[message.partyA.id] != undefined ? userWiseUnread[message.partyA.id] : userWiseUnread[message.partyB.id] : ''}}</b> </span>
+              </div>
+            </li>
+          </div>
+        </ul>
+        </div>
+        <div class="card-footer"></div>
+      </div></div>
+
+      <div class="col-md-8 col-xl-6 chat" style="width: 65%;">
+        <div class="card">
+          <div class="card-header msg_head">
+            <div class="d-flex bd-highlight">
+              <div class="img_cont">
+                <img src="{{recipientImage != undefined ? recipientImage : './assets/nochat.jpg'}}" class="rounded-circle user_img">
+                <span class="online_icon"></span>
+              </div>
+              <div class="user_info">
+                <span>{{recipientId != undefined ? 'Chat with '+chatLabelHead : chatLabelHead}}</span>
+                <p>{{messageDetails != undefined ? 'No of messages : '+messageDetails.length : chatLabelTotalMessages}}</p>
+              </div>
+              <div class="video_cam">
+                <span><i class="fas fa-video"></i></span>
+                <span><i class="fas fa-phone"></i></span>
+              </div>
+            </div>
+            <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+          </div>
+          <div id="msgCardBody" class="card-body msg_card_body" #msgCardBody
+          (scroll)="loadNextMsgDetails()">
+          <div *ngIf="displaySpinner">
+          <mat-spinner  style="display: flex; justify-content: center; align-items: center;position: fixed;margin-left: 320px;" color="primary"></mat-spinner>
+          </div>
+<div *ngIf="recipientId == undefined"> 
+  <div class="user_info">
+  <img style="background-image: url('./assets/nochat.jpg');margin-left: auto;margin-right: auto;display: block;border:1.5px solid #f5f6fa;" mat-card-avatar class="example-header-image" />
+</div>
+</div>
+<div *ngIf="showProfileButton"> 
+  <div class="user_info">
+  <img style="background-image: url('./assets/nochat.jpg');margin-left: auto;margin-right: auto;display: block;border:1.5px solid #f5f6fa;" mat-card-avatar class="example-header-image" />
+</div>
+</div>
+
+            <div  id="usersss" *ngIf="recipientId != undefined && (messageDetails != undefined && messageDetails.length != 0)">
+            <div *ngFor="let messageDtl of messageDetails" class="{{(messageDtl.isRead == 0 && messageDtl.fromId.id != userId) && classShowNewMsg ? 'newmsg' : ''}} {{messageDtl.fromId.id == userId ? 'd-flex justify-content-end mb-4' : 'd-flex justify-content-start mb-4'}}" id="msgdtl_{{messageDtl.messageDetailId}}">
+              <div class="img_cont_msg">
+                <img src="{{messageDtl.fromId.id == userId ? currentUserImage != undefined ? currentUserImage : './assets/profilepic.jpg' : recipientImage != undefined ? recipientImage : './assets/profilepic.jpg'}}" class="rounded-circle user_img_msg">
+              </div>
+              <div *ngIf="messageDtl.contentType == 1" class="{{messageDtl.fromId.id == userId ? 'msg_cotainer_currentUser' : 'msg_cotainer_otherUser' }} ">
+                {{messageDtl.content}}
+                <span class="msg_time">{{messageDtl.createdOn}}</span>
+              </div>
+              <div *ngIf="messageDtl.contentType == 2" class="{{messageDtl.fromId.id == userId ? 'msg_cotainer_currentUser' : 'msg_cotainer_otherUser' }} ">
+                <img src="data:image/jpeg;base64,{{messageDtl.image}}" class="rounded-circle user_img_chat">
+                <span class="msg_time">{{messageDtl.createdOn}}</span>
+              </div>
+            </div></div>
+
+            
+          </div>
+          <div *ngIf="recipientId != undefined" class="card-footer">
+            <div class="input-group">
+              <div class="input-group-append">
+                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+              </div>
+              <textarea name="" [(ngModel)]="messageDetail.content"  class="form-control type_msg" placeholder="Type your message..."></textarea>
+              <div class="input-group-append">
+                <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+<input hidden (change)="onImageUpload($event)" #fileInput type="file" id="file">
+
+                <button mat-raised-button color="primary" (click)="saveMessage()" >Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
