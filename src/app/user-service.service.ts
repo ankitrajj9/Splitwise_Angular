@@ -244,4 +244,8 @@ export class UserService {
   public getUserWiseUnreadCount(userId:number):any{
     return this.http.get<any>(this.splitter_url+`/getuserwiseunreadcount/${userId}`);
   }
+
+  public searchGroups(fromMailId:any,searchText:any): Observable<any[]> {
+    return this.http.get<any[]>(this.splitter_url+`/searchgroups/${searchText}/${fromMailId}`);
+  }
 }
