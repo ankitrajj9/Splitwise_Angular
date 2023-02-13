@@ -13,6 +13,7 @@ export class GroupListingComponent implements OnInit {
 mailId:string
 noGroup:boolean
 text = '';
+sortVal:any
   constructor(private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
@@ -32,7 +33,18 @@ text = '';
   searchGroup(obj) { // appending the updated value to the variable
     this.text = obj.target.value;
     console.log('test : ' + this.text);
-    if(obj.target.value != undefined && obj.target.value != ''){
+    if(obj.target.value != undefined && obj.target.value != '' && this.sortVal != undefined){
+    this.userService.searchSortGroups(window.sessionStorage.getItem('sessionUserEmail'),this.text,this.sortVal).subscribe(data => {
+      this.groups = data;
+      if(data == undefined || data.length == 0){
+        this.noGroup=true
+      }
+      else{
+        this.noGroup=false
+      }
+    });
+  }
+  else if(obj.target.value != undefined && obj.target.value != ''){
     this.userService.searchGroups(window.sessionStorage.getItem('sessionUserEmail'),this.text).subscribe(data => {
       this.groups = data;
       if(data == undefined || data.length == 0){
@@ -46,8 +58,24 @@ text = '';
   else{
     this.ngOnInit();
   }
-  
-    
+ }
+
+  sortGroup(obj) { // appending the updated value to the variable
+    this.sortVal = obj.value;
+    if(this.sortVal != undefined){
+    this.userService.searchSortGroups(window.sessionStorage.getItem('sessionUserEmail'),this.text == '' ? 'ALL' : this.text,this.sortVal).subscribe(data => {
+      this.groups = data;
+      if(data == undefined || data.length == 0){
+        this.noGroup=true
+      }
+      else{
+        this.noGroup=false
+      }
+    });
+  }
+  else{
+    this.ngOnInit();
+  }
     
   }
 

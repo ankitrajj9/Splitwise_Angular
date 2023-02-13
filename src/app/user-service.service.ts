@@ -248,4 +248,8 @@ export class UserService {
   public searchGroups(fromMailId:any,searchText:any): Observable<any[]> {
     return this.http.get<any[]>(this.splitter_url+`/searchgroups/${searchText}/${fromMailId}`);
   }
+
+  public searchSortGroups(fromMailId:any,searchText:any,sortVal:any): Observable<any[]> {
+    return this.http.get<any[]>(this.splitter_url+`/searchsortgroups/${searchText}/${sortVal}/${fromMailId}`);
+  }
 }

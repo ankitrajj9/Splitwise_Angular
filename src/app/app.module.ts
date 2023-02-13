@@ -48,6 +48,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {TokenInterceptorService} from './token-interceptor.service';
 import { ExternalLoginComponent } from './external-login/external-login.component';
 import { MessagesComponent } from './messages/messages.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { MessagesComponent } from './messages/messages.component';
    LoadingBarRouterModule,
    MatInputModule,
    MatNativeDateModule,
-   MatDatepickerModule
+   MatDatepickerModule,
+   MatSelectModule
   ],
   providers: [UserService,
   {
